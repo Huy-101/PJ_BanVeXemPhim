@@ -346,7 +346,7 @@ public class Gui_QuanLyNhanVien extends JFrame implements ActionListener, MenuLi
 		dangXuatMenu.addMenuListener(this);
 		
 		table.addMouseListener(this);
-//		DocDuLieuDatabaseVaoTable();
+		DocDuLieuDatabaseVaoTable();
 	}
 
 	private static void chinhMauMenu(JMenu menu1, JMenu menu2) {
@@ -556,26 +556,26 @@ public class Gui_QuanLyNhanVien extends JFrame implements ActionListener, MenuLi
 
 
 	
-//	private void DocDuLieuDatabaseVaoTable() {	
-//		ConnectDB db = ConnectDB.getInstance();
-//        db.connect();
-//		ArrayList<NhanVien> list = dsnv.layDanhSachNhanVien();
-//		int i = 1;
-//		for (NhanVien nv : list) {
-//			String gt = "Nam";
-//			String cv = "Quản lý";
-//			if(!nv.isGioiTinh()) {
-//				gt = "Nữ";
-//			}
-//			if(!nv.isChucVu()) {
-//				cv = "Nhân viên bán vé";
-//			}
-//			tableModel.addRow(new Object[] { i, nv.getMaNhanVien(), nv.getHoTen(),nv.getNgaySinh(),
-//							gt, nv.getDiaChi(), nv.getSoDienThoai(), nv.getEmail(), cv, nv.getLuong(), nv.getPassword() });
-//			i++;
-//		}
-//		table.setModel(tableModel);
-//	}
+	private void DocDuLieuDatabaseVaoTable() {	
+		ConnectDB db = ConnectDB.getInstance();
+        db.connect();
+		ArrayList<NhanVien> list = dsnv.layDanhSachNhanVien();
+		int i = 1;
+		for (NhanVien nv : list) {
+			String gt = "Nam";
+			String cv = "Quản lý";
+			if(!nv.isGioiTinh()) {
+				gt = "Nữ";
+			}
+			if(!nv.isChucVu()) {
+				cv = "Nhân viên bán vé";
+			}
+			tableModel.addRow(new Object[] { i, nv.getMaNhanVien(), nv.getHoTen(),nv.getNgaySinh(),
+							gt, nv.getDiaChi(), nv.getSoDienThoai(), nv.getEmail(), cv, nv.getLuong(), nv.getPassword() });
+			i++;
+		}
+		table.setModel(tableModel);
+	}
 
 	public void XoaDataTrenModel() {
 		DefaultTableModel dtm = (DefaultTableModel) table.getModel();

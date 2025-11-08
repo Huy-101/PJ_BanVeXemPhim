@@ -1,4 +1,7 @@
 ﻿create database QuanLyRapChieuPhim
+COLLATE Vietnamese_100_CI_AI_KS_SC_UTF8;
+GO
+
 USE QuanLyRapChieuPhim
 GO
 CREATE TABLE Phim (
@@ -10,7 +13,7 @@ CREATE TABLE Phim (
 	NgayKetThuc DATETIME,
 	QuocGia NVARCHAR(100),
 	TheLoai NVARCHAR(200),
-	MoTa TEXT
+	MoTa NVARCHAR(200),
 );
 
 CREATE TABLE PhongChieu(
@@ -197,7 +200,6 @@ INSERT INTO VePhim (MaVePhim, TenGhe, MaPhong, MaSuatChieu) VALUES
 ('VP019', 'J1', 'PH001', 'SC003'),
 ('VP020', 'J2', 'PH001', 'SC004');
 
-SELECT MaSuatChieu FROM SuatChieu;
 
 INSERT INTO KhachHang (MaKhachHang, HoTen, NgaySinh, DiaChi, SDT, Email) VALUES
 ('KH001', 'Nguyễn Văn An', '1995-03-10', 'Hà Nội', '0901234567', 'an.nguyen@example.com'),
@@ -438,7 +440,7 @@ BEGIN
 END;
 
 CREATE PROCEDURE sp_themNhanVien(
-    @maNhanVien NVARCHAR(50),
+    @MaNhanVien NVARCHAR(50),
     @HoTen NVARCHAR(150),
 	@MatKhau NVARCHAR(50),
     @NgaySinh DATETIME,
@@ -450,7 +452,7 @@ CREATE PROCEDURE sp_themNhanVien(
     @Luong MONEY)
 AS
 BEGIN
-    INSERT INTO NhanVien VALUES (@maNhanVien, @HoTen, @MatKhau, @NgaySinh, @DiaChi, @SDT, @Email, @GioiTinh, @ChucVu, @Luong);
+    INSERT INTO NhanVien VALUES (@MaNhanVien, @HoTen, @MatKhau, @NgaySinh, @DiaChi, @SDT, @Email, @GioiTinh, @ChucVu, @Luong);
 END;
 
 CREATE PROCEDURE sp_capNhatNhanVien(
