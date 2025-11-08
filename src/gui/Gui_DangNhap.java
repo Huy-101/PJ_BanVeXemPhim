@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -43,9 +45,13 @@ public class Gui_DangNhap extends JFrame implements ActionListener, KeyListener 
 		setSize(500, 240);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		setBackground(Color.gray);
+
+		//Nền trắng tổng thể
+		getContentPane().setBackground(Color.WHITE);
 
 		JPanel jpWest = new JPanel();
+		jpWest.setBackground(Color.WHITE); // đồng bộ nền trắng
+
 		ImageIcon imgLogin = new ImageIcon("image//login.png");
 		Image img = imgLogin.getImage();
 		Image newImg = img.getScaledInstance(170, 170, Image.SCALE_SMOOTH);
@@ -55,7 +61,7 @@ public class Gui_DangNhap extends JFrame implements ActionListener, KeyListener 
 		add(jpWest, BorderLayout.WEST);
 
 		Box b = Box.createVerticalBox();
-		Box b1, b2, b3;
+		Box b1, b2, b3, b4;
 
 		b.add(Box.createVerticalStrut(20));
 		b.add(b1 = Box.createHorizontalBox());
@@ -73,7 +79,7 @@ public class Gui_DangNhap extends JFrame implements ActionListener, KeyListener 
 		b2.add(b4 = Box.createHorizontalBox());
 		b4.add(txtPassword = new JPasswordField());
 		txtPassword.setMaximumSize(new Dimension(Integer.MAX_VALUE, txtPassword.getPreferredSize().height + 10));
-		txtShowPassword.setMaximumSize(new Dimension(Integer.MAX_VALUE, txtPassword.getPreferredSize().height + 10));
+
 		Image img1 = eyeClosedImg.getImage();
 		Image newImg1 = img1.getScaledInstance(10, 20, Image.SCALE_SMOOTH);
 		eyeClosedImg = new ImageIcon(newImg1);
@@ -82,21 +88,35 @@ public class Gui_DangNhap extends JFrame implements ActionListener, KeyListener 
 
 		b.add(b3 = Box.createHorizontalBox());
 		b.add(Box.createVerticalStrut(10));
+
+		//Nút xanh, chữ trắng
 		b3.add(btnLogin = new JButton("ĐĂNG NHẬP"));
-		btnLogin.setBackground(new Color(104, 109, 224));
-		btnLogin.setForeground(Color.white);
+		btnLogin.setBackground(new Color(0, 102, 204)); // xanh dương tươi
+		btnLogin.setForeground(Color.WHITE);
+		btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		btnLogin.setFocusPainted(false);
+		btnLogin.setBorder(BorderFactory.createLineBorder(new Color(0, 70, 160), 2, true));
+
 		b.add(Box.createVerticalStrut(20));
 
 		lblPassword.setPreferredSize(lblUser.getPreferredSize());
-
 		add(b, BorderLayout.CENTER);
 
+		//Màu chữ xanh đậm cho label
+		Color blueText = new Color(0, 51, 153);
+		lblUser.setForeground(blueText);
+		lblPassword.setForeground(blueText);
+
+		//Thêm viền nhẹ cho textfield
+		txtUser.setBorder(BorderFactory.createLineBorder(new Color(180, 180, 180)));
+		txtPassword.setBorder(BorderFactory.createLineBorder(new Color(180, 180, 180)));
+
+		//Cài đặt sự kiện
 		btnLogin.addActionListener(this);
 		btnToggle.addActionListener(this);
 
 		txtUser.addKeyListener(this);
 		txtPassword.addKeyListener(this);
-		txtShowPassword.addKeyListener(this);
 		btnLogin.addKeyListener(this);
 		btnToggle.addKeyListener(this);
 	}
@@ -137,9 +157,9 @@ public class Gui_DangNhap extends JFrame implements ActionListener, KeyListener 
 		String user = txtUser.getText().trim();
 		String password;
 		if (isPasswordVisible) {
-			password = new String(txtPassword.getPassword()).trim();
+		    password = txtShowPassword.getText().trim();
 		} else {
-			password = new String(txtPassword.getPassword()).trim();
+		    password = new String(txtPassword.getPassword()).trim();
 		}
 		ArrayList<NhanVien> nhanVien = dsnv.layDanhSachNhanVien();
 		boolean found = false;
