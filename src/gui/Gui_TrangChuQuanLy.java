@@ -52,7 +52,6 @@ public class Gui_TrangChuQuanLy extends JFrame implements ActionListener, MenuLi
 
 		// Tạo các menu
 		quanLyMenu = new JMenu("Quản lý");
-		//banHangMenu = new JMenu("Bán hàng");
 		thongKeMenu = new JMenu("Thống kê");
 		dangXuatMenu = new JMenu("Đăng xuất");
 
@@ -75,7 +74,6 @@ public class Gui_TrangChuQuanLy extends JFrame implements ActionListener, MenuLi
 
 		// Thêm menu vào thanh menu
 		menuBar.add(quanLyMenu);
-		//menuBar.add(banHangMenu);
 		menuBar.add(thongKeMenu);
 		menuBar.add(Box.createHorizontalGlue());
 		menuBar.add(dangXuatMenu);
@@ -89,17 +87,18 @@ public class Gui_TrangChuQuanLy extends JFrame implements ActionListener, MenuLi
 		toolBar.setBorder(new EmptyBorder(10, 20, 10, 20));
 
 		// Các nút công cụ
-		toolBar.add(btnPhim = createControlButton("Phim", "image//movie-icon.png", 40, 40));
+		toolBar.add(btnPhim = createControlButton("Phim", "image//movie.jpg", 40, 40));
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
+		toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image/suatchieu.jpg", 40, 40));
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
+		toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image/customer.jpg", 40, 40));
+		btnKhachHang.setBackground(new Color(104, 109, 224));
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee-icon.png", 40, 40));
+		toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee.jpg", 40, 40));
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoaDon-icon.png", 40, 40));
+		toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image/bill.jpg", 40, 40));
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnVe = createControlButton("Vé", "image//ticket-icon.png", 40, 40));
+		toolBar.add(btnVe = createControlButton("Vé", "image/tiket.jpg", 40, 40));
 
 		add(toolBar, BorderLayout.NORTH);
 

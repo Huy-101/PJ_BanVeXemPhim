@@ -129,7 +129,6 @@ public class Gui_QuanLyNhanVien extends JFrame implements ActionListener, MenuLi
 		dangXuatMenu.setIcon(resizeImage("image//dangXuat-icon.jpg", 40, 40));
 
 		menuBar.add(quanLyMenu);
-//		menuBar.add(banHangMenu);
 		menuBar.add(thongKeMenu);
 		menuBar.add(Box.createHorizontalGlue());
 		menuBar.add(dangXuatMenu);
@@ -139,20 +138,20 @@ public class Gui_QuanLyNhanVien extends JFrame implements ActionListener, MenuLi
 		// Tạo JPanel cố định cho các nút điều khiển
 
 		// Thêm các nút điều khiển
-		toolBar.add(btnPhim = createControlButton("Phim", "image//movie-icon.png", 40, 40));
+		toolBar.add(btnPhim = createControlButton("Phim", "image//movie.jpg", 40, 40));
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
+		toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image/suatchieu.jpg", 40, 40));
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 		toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer.jpg", 40, 40));
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee-icon.png", 40, 40));
+		toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image/employee.jpg", 40, 40));
 		btnNhanVien.setBackground(new Color(104, 109, 224));
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoaDon-icon.png", 40, 40));
+		toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image/bill.jpg", 40, 40));
 		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnVe = createControlButton("Vé", "image//ticket-icon.png", 40, 40));
+		toolBar.add(btnVe = createControlButton("Vé", "image/tiket.jpg", 40, 40));
 
 		// Đặt controlPanel ở phía trên cùng (giống như thanh công cụ cố định)
 		add(toolBar, BorderLayout.NORTH);
@@ -441,8 +440,6 @@ public class Gui_QuanLyNhanVien extends JFrame implements ActionListener, MenuLi
 			toolBar.add(btnPhim = createControlButton("Phim", "image//movie-icon.png", 40, 40));
 			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 			toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-
 			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 			toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
 			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
