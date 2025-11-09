@@ -1,208 +1,203 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
+import javax.swing.*;
+import javax.swing.border.Border;
 import dao.Dao_NhanVien;
 import entity.NhanVien;
 
 public class Gui_DangNhap extends JFrame implements ActionListener, KeyListener {
-	private JTextField txtUser;
-	private JPasswordField txtPassword;
-	private JButton btnLogin;
-	private JButton btnToggle;
-	private JButton btnForget;
-	private Box b4;
-	private ImageIcon eyeClosedImg = new ImageIcon("image//eye-close.png");
-	private ImageIcon eyeOpenImg = new ImageIcon("image//eye-open.png");
-	private boolean isPasswordVisible = false;
-	private JTextField txtShowPassword = new JTextField();
-	private Dao_NhanVien dsnv = new Dao_NhanVien();
+    private JTextField txtUser;
+    private JPasswordField txtPassword;
+    private JTextField txtShowPassword; // Hiển thị mật khẩu
+    private JButton btnLogin;
+    private JButton btnToggle;
+    private Box b4; // Box chứa txtPassword hoặc txtShowPassword
+    private ImageIcon eyeClosedImg = new ImageIcon("image//eye-close.png");
+    private ImageIcon eyeOpenImg = new ImageIcon("image//eye-open.png");
+    private boolean isPasswordVisible = false;
+    private Dao_NhanVien dsnv = new Dao_NhanVien();
 
-	public Gui_DangNhap() {
-		setTitle("Đăng nhập");
-		setSize(500, 240);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+    public Gui_DangNhap() {
+        setTitle("Đăng nhập");
+        setSize(500, 240);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(Color.WHITE);
 
-		//Nền trắng tổng thể
-		getContentPane().setBackground(Color.WHITE);
+        // === PHÍA TRÁI - HÌNH ẢNH ===
+        JPanel jpWest = new JPanel();
+        jpWest.setBackground(Color.WHITE);
+        ImageIcon imgLogin = new ImageIcon("image//login.png");
+        Image img = imgLogin.getImage().getScaledInstance(170, 170, Image.SCALE_SMOOTH);
+        JLabel lblImgLogin = new JLabel(new ImageIcon(img));
+        jpWest.add(lblImgLogin);
+        add(jpWest, BorderLayout.WEST);
 
-		JPanel jpWest = new JPanel();
-		jpWest.setBackground(Color.WHITE); // đồng bộ nền trắng
+        // === PHÍA GIỮA - FORM ===
+        Box b = Box.createVerticalBox();
+        Box b1, b2, b3;
 
-		ImageIcon imgLogin = new ImageIcon("image//login.png");
-		Image img = imgLogin.getImage();
-		Image newImg = img.getScaledInstance(170, 170, Image.SCALE_SMOOTH);
-		imgLogin = new ImageIcon(newImg);
-		JLabel lblImgLogin;
-		jpWest.add(lblImgLogin = new JLabel(imgLogin));
-		add(jpWest, BorderLayout.WEST);
+        b.add(Box.createVerticalStrut(20));
 
-		Box b = Box.createVerticalBox();
-		Box b1, b2, b3, b4;
+        // --- DÒNG 1: TÀI KHOẢN ---
+        b.add(b1 = Box.createHorizontalBox());
+        b.add(Box.createVerticalStrut(10));
+        JLabel lblUser = new JLabel("Tài khoản: ");
+        txtUser = new JTextField();
+        txtUser.setMaximumSize(new Dimension(Integer.MAX_VALUE, txtUser.getPreferredSize().height + 10));
+        b1.add(lblUser);
+        b1.add(txtUser);
+        b1.add(Box.createHorizontalStrut(20));
 
-		b.add(Box.createVerticalStrut(20));
-		b.add(b1 = Box.createHorizontalBox());
-		b.add(Box.createVerticalStrut(10));
-		JLabel lblUser;
-		b1.add(lblUser = new JLabel("Tài khoản: "));
-		b1.add(txtUser = new JTextField());
-		txtUser.setMaximumSize(new Dimension(Integer.MAX_VALUE, txtUser.getPreferredSize().height + 10));
-		b1.add(Box.createHorizontalStrut(20));
+        // --- DÒNG 2: MẬT KHẨU + NÚT HIỆN/ẨN ---
+        b.add(b2 = Box.createHorizontalBox());
+        b.add(Box.createVerticalStrut(10));
+        JLabel lblPassword = new JLabel("Mật khẩu:  ");
+        b4 = Box.createHorizontalBox(); // Khởi tạo b4 tại đây
+        txtPassword = new JPasswordField();
+        txtShowPassword = new JTextField();
+        txtShowPassword.setVisible(false); // Ẩn ban đầu
 
-		b.add(b2 = Box.createHorizontalBox());
-		b.add(Box.createVerticalStrut(10));
-		JLabel lblPassword;
-		b2.add(lblPassword = new JLabel("Mật khẩu: "));
-		b2.add(b4 = Box.createHorizontalBox());
-		b4.add(txtPassword = new JPasswordField());
-		txtPassword.setMaximumSize(new Dimension(Integer.MAX_VALUE, txtPassword.getPreferredSize().height + 10));
+        // Đặt kích thước đồng bộ
+        txtPassword.setMaximumSize(new Dimension(Integer.MAX_VALUE, txtPassword.getPreferredSize().height + 10));
+        txtShowPassword.setMaximumSize(new Dimension(Integer.MAX_VALUE, txtShowPassword.getPreferredSize().height + 10));
 
-		Image img1 = eyeClosedImg.getImage();
-		Image newImg1 = img1.getScaledInstance(10, 20, Image.SCALE_SMOOTH);
-		eyeClosedImg = new ImageIcon(newImg1);
-		b2.add(btnToggle = new JButton(eyeClosedImg));
-		b2.add(Box.createHorizontalStrut(20));
+        // Thêm vào b4
+        b4.add(txtPassword);
 
-		b.add(b3 = Box.createHorizontalBox());
-		b.add(Box.createVerticalStrut(10));
+        // Nút toggle
+        btnToggle = new JButton(resizeIcon(eyeClosedImg, 20, 20));
+        btnToggle.setPreferredSize(new Dimension(30, 30));
+        btnToggle.setContentAreaFilled(false);
+        btnToggle.setBorderPainted(false);
+        btnToggle.setFocusPainted(false);
 
-		//Nút xanh, chữ trắng
-		b3.add(btnLogin = new JButton("ĐĂNG NHẬP"));
-		btnLogin.setBackground(new Color(0, 102, 204)); // xanh dương tươi
-		btnLogin.setForeground(Color.WHITE);
-		btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		btnLogin.setFocusPainted(false);
-		btnLogin.setBorder(BorderFactory.createLineBorder(new Color(0, 70, 160), 2, true));
+        b2.add(lblPassword);
+        b2.add(b4);
+        b2.add(btnToggle);
+        b2.add(Box.createHorizontalStrut(20));
 
-		b.add(Box.createVerticalStrut(20));
+        // --- DÒNG 3: NÚT ĐĂNG NHẬP ---
+        b.add(b3 = Box.createHorizontalBox());
+        b.add(Box.createVerticalStrut(10));
+        btnLogin = new JButton("ĐĂNG NHẬP");
+        btnLogin.setBackground(new Color(0, 102, 204));
+        btnLogin.setForeground(Color.WHITE);
+        btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnLogin.setFocusPainted(false);
+        btnLogin.setBorder(BorderFactory.createLineBorder(new Color(0, 70, 160), 2, true));
+        b3.add(btnLogin);
 
-		lblPassword.setPreferredSize(lblUser.getPreferredSize());
-		add(b, BorderLayout.CENTER);
+        b.add(Box.createVerticalStrut(20));
+        add(b, BorderLayout.CENTER);
 
-		//Màu chữ xanh đậm cho label
-		Color blueText = new Color(0, 51, 153);
-		lblUser.setForeground(blueText);
-		lblPassword.setForeground(blueText);
+        // === ĐỒNG BỘ KÍCH THƯỚC LABEL ===
+        lblPassword.setPreferredSize(lblUser.getPreferredSize());
 
-		//Thêm viền nhẹ cho textfield
-		txtUser.setBorder(BorderFactory.createLineBorder(new Color(180, 180, 180)));
-		txtPassword.setBorder(BorderFactory.createLineBorder(new Color(180, 180, 180)));
+        // === VIỀN CHO TEXTFIELD ===
+        Border border = BorderFactory.createLineBorder(new Color(180, 180, 180));
+        txtUser.setBorder(border);
+        txtPassword.setBorder(border);
+        txtShowPassword.setBorder(border);
 
-		//Cài đặt sự kiện
-		btnLogin.addActionListener(this);
-		btnToggle.addActionListener(this);
+        // === MÀU CHỮ LABEL ===
+        Color blueText = new Color(0, 51, 153);
+        lblUser.setForeground(blueText);
+        lblPassword.setForeground(blueText);
 
-		txtUser.addKeyListener(this);
-		txtPassword.addKeyListener(this);
-		btnLogin.addKeyListener(this);
-		btnToggle.addKeyListener(this);
-	}
+        // === SỰ KIỆN ===
+        btnLogin.addActionListener(this);
+        btnToggle.addActionListener(this);
+        txtUser.addKeyListener(this);
+        txtPassword.addKeyListener(this);
+        txtShowPassword.addKeyListener(this);
+        btnLogin.addKeyListener(this);
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		Object o = e.getSource();
-		if (o.equals(btnLogin))
-			actionLogin();
-		if (o.equals(btnToggle))
-			actionToggle();
-	}
+    // === PHÓNG TO ICON ===
+    private ImageIcon resizeIcon(ImageIcon icon, int width, int height) {
+        Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(img);
+    }
 
-	private void actionToggle() {
-		// TODO Auto-generated method stub
-		if (isPasswordVisible) {
-			txtPassword.setText(txtShowPassword.getText());
-			b4.remove(txtShowPassword);
-			b4.add(txtPassword, 0);
-			btnToggle.setIcon(eyeClosedImg);
-		} else {
-			txtShowPassword.setText(new String(txtPassword.getPassword()));
-			b4.remove(txtPassword);
-			b4.add(txtShowPassword, 0);
-			Image img2 = eyeOpenImg.getImage();
-			Image newImg2 = img2.getScaledInstance(10, 20, Image.SCALE_SMOOTH);
-			eyeOpenImg = new ImageIcon(newImg2);
-			btnToggle.setIcon(eyeOpenImg);
-		}
-		isPasswordVisible = !isPasswordVisible;
-		b4.revalidate();
-		b4.repaint();
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnLogin) {
+            actionLogin();
+        } else if (e.getSource() == btnToggle) {
+            actionToggle();
+        }
+    }
 
-	private void actionLogin() {
-		// TODO Auto-generated method stub
-		String user = txtUser.getText().trim();
-		String password;
-		if (isPasswordVisible) {
-		    password = txtShowPassword.getText().trim();
-		} else {
-		    password = new String(txtPassword.getPassword()).trim();
-		}
-		ArrayList<NhanVien> nhanVien = dsnv.layDanhSachNhanVien();
-		boolean found = false;
-		for (NhanVien nv : nhanVien) {
-			if (nv.getMaNhanVien().equals(user) && nv.getPassword().equals(password)) {
-				found = true;
-				if (nv.isChucVu()) {
-					new Gui_TrangChuQuanLy().setVisible(true);
-				} else {
-					new Gui_BanVe(nv).setVisible(true);
-				}
-				this.setVisible(false);
-				break;
-			}
-		}
-		if (!found) {
-			JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu sai.");
-			txtUser.selectAll();
-			txtUser.requestFocus();
-		}
-	}
+    private void actionToggle() {
+        if (b4 == null) return;
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+        b4.removeAll();
 
-	}
+        if (isPasswordVisible) {
+            // Ẩn → hiện JPasswordField
+            txtPassword.setText(txtShowPassword.getText());
+            b4.add(txtPassword);
+            btnToggle.setIcon(resizeIcon(eyeClosedImg, 20, 20));
+            txtShowPassword.setVisible(false);
+            txtPassword.setVisible(true);
+        } else {
+            // Hiện → hiển thị JTextField
+            txtShowPassword.setText(new String(txtPassword.getPassword()));
+            b4.add(txtShowPassword);
+            btnToggle.setIcon(resizeIcon(eyeOpenImg, 20, 20));
+            txtPassword.setVisible(false);
+            txtShowPassword.setVisible(true);
+        }
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getKeyCode() == KeyEvent.VK_ENTER)
-			btnLogin.doClick();
-	}
+        isPasswordVisible = !isPasswordVisible;
+        b4.revalidate();
+        b4.repaint();
+    }
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+    private void actionLogin() {
+        String user = txtUser.getText().trim();
+        String password = isPasswordVisible
+                ? txtShowPassword.getText().trim()
+                : new String(txtPassword.getPassword()).trim();
 
-	}
+        if (user.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản và mật khẩu!", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-	public static void main(String[] args) {
-		new Gui_DangNhap().setVisible(true);
-	}
+        ArrayList<NhanVien> nhanVien = dsnv.layDanhSachNhanVien();
+        for (NhanVien nv : nhanVien) {
+            if (nv.getMaNhanVien().equals(user) && nv.getPassword().equals(password)) {
+                this.dispose();
+                if (nv.isChucVu()) {
+                    new Gui_TrangChuQuanLy().setVisible(true);
+                } else {
+                    new Gui_BanVe(nv).setVisible(true);
+                }
+                return;
+            }
+        }
 
+        JOptionPane.showMessageDialog(this, "Tài khoản hoặc mật khẩu sai!", "Đăng nhập thất bại", JOptionPane.ERROR_MESSAGE);
+        txtUser.selectAll();
+        txtUser.requestFocus();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnLogin.doClick();
+        }
+    }
+
+    @Override public void keyTyped(KeyEvent e) {}
+    @Override public void keyReleased(KeyEvent e) {}
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> new Gui_DangNhap().setVisible(true));
+    }
 }
