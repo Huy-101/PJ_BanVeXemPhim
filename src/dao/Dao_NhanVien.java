@@ -246,7 +246,8 @@ public class Dao_NhanVien {
 				boolean gioiTinh = rs.getBoolean(8);
 				boolean chucVu = rs.getBoolean(9);
 				double luong = rs.getDouble(10);
-				NhanVien nv = new NhanVien(maNV, hoTen, mk, ngaySinh, diaChi, soDienThoai, email, gioiTinh, chucVu, luong); // đổi vị trí giới tính và chức vụ
+				NhanVien nv = new NhanVien(maNV, hoTen, mk, ngaySinh, diaChi, soDienThoai, email, chucVu, gioiTinh,
+						luong);
 				dsnv.add(nv);
 			}
 		} catch (SQLException e) {
