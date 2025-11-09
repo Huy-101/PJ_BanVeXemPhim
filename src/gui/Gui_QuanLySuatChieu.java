@@ -473,6 +473,8 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 			actionCapNhat();
 		if (o.equals(btnXoaRong)) 
 			actionXoaTrang();
+		if (o.equals(btnSapXep)) 
+			actionSapXep();
 	}
 
 	private void actionTimKiemTrangThai() {
@@ -522,8 +524,50 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 	}
 
 	private void actionTimKiemTenPhim() {
-		// TODO Auto-generated method stub
+	    String tenPhim = txtTimTenPhim.getText().trim();
 
+	    if (tenPhim.isEmpty()) {
+	        JOptionPane.showMessageDialog(this, "Vui lòng nhập tên phim!", 
+	                                      "Lỗi", JOptionPane.WARNING_MESSAGE);
+	        txtTimTenPhim.requestFocus();
+	        return;
+	    }
+
+	    Dao_Phim dao = new Dao_Phim();
+	    ArrayList<Phim> ketQua = dao.timPhimTheoTen(tenPhim);
+
+	    // Xóa bảng
+	    while (tableModel.getRowCount() > 0) {
+	        tableModel.removeRow(0);
+	    }
+
+	    if (ketQua == null || ketQua.isEmpty()) {
+	        JOptionPane.showMessageDialog(this, 
+	            "Không tìm thấy phim nào có tên chứa: \"" + tenPhim + "\"", 
+	            "Kết quả tìm kiếm", JOptionPane.INFORMATION_MESSAGE);
+	        return;
+	    }
+
+	    // Hiển thị kết quả
+	    int stt = 1;
+	    for (Phim p : ketQua) {
+	        tableModel.addRow(new Object[] {
+	            stt++,
+	            p.getMaPhim(),
+	            p.getTenPhim(),
+	            p.getDaoDien(),
+	            p.getThoiLuong(),
+	            p.getNgayKhoiChieu(),
+	            p.getNgayKetThuc(),
+	            p.getQuocGia(),
+	            p.getTheLoai(),
+	            p.getMoTa()
+	        });
+	    }
+
+	    JOptionPane.showMessageDialog(this, 
+	        "Tìm thấy " + ketQua.size() + " phim!", 
+	        "Thành công", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override
