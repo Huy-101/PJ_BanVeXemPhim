@@ -612,25 +612,25 @@ CREATE PROCEDURE sp_themPhim(
     @TenPhim NVARCHAR(150),
 	@DaoDien VARCHAR(100),
 	@ThoiLuong INT,
-    @NgaybatDau DATETIME,
+    @NgayKhoiChieu DATETIME,
 	@NgayKetThuc DATETIME,
 	@QuocGia NVARCHAR(100),
 	@TheLoai NVARCHAR(200),
-	@MoTa TEXT)
+	@MoTa NVARCHAR(200))
 AS
 BEGIN
-    INSERT INTO Phim VALUES ( @MaPhim, @TenPhim, @DaoDien, @ThoiLuong, @NgaybatDau, @NgayKetThuc, @QuocGia, @TheLoai, @MoTa);
+    INSERT INTO Phim VALUES ( @MaPhim, @TenPhim, @DaoDien, @ThoiLuong, @NgayKhoiChieu, @NgayKetThuc, @QuocGia, @TheLoai, @MoTa);
 END;
 
 CREATE PROCEDURE sp_capNhatPhim(
     @TenPhim NVARCHAR(150),
 	@DaoDien VARCHAR(100),
 	@ThoiLuong INT,
-    @NgaybatDau DATETIME,
+    @NgayKhoiChieu DATETIME,
 	@NgayKetThuc DATETIME,
 	@QuocGia NVARCHAR(100),
 	@TheLoai NVARCHAR(200),
-	@MoTa TEXT,
+	@MoTa NVARCHAR(200),
 	@MaPhim NVARCHAR(50))
 AS
 BEGIN
@@ -638,7 +638,7 @@ BEGIN
     SET TenPhim = @TenPhim,
         DaoDien = @DaoDien,
         ThoiLuong = @ThoiLuong,
-        NgaybatDau = @NgaybatDau,
+        NgayKhoiChieu = @NgayKhoiChieu,
         NgayKetThuc = @NgayKetThuc,
 		QuocGia = @QuocGia,
 		TheLoai = @TheLoai,
@@ -662,7 +662,7 @@ CREATE PROCEDURE sp_timPhimTheoNgayChieu(
 AS
 BEGIN
     SELECT * FROM Phim
-    WHERE NgayBatDau >= @NgaybatDau AND NgayKetThuc <= @NgayKetThuc;
+    WHERE NgayKhoiChieu >= @NgayKetThuc AND NgayKetThuc <= @NgayKetThuc;
 END;
 
 CREATE PROCEDURE sp_timPhimTheoTen(
