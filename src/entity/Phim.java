@@ -9,6 +9,7 @@ public class Phim {
 	private LocalDate ngayKhoiChieu;
 	private LocalDate ngayKetThuc;
 	private String quocGia, theLoai;
+	private String trangThai;
 	private String moTa;
 
 	public Phim() {
@@ -20,6 +21,7 @@ public class Phim {
 		this.ngayKetThuc = LocalDate.now();
 		this.quocGia = "";
 		this.theLoai = "";
+		this.trangThai = "";
 		this.moTa = ""; 
 	}
 
@@ -32,16 +34,29 @@ public class Phim {
 		this.ngayKetThuc = LocalDate.now();
 		this.quocGia = "";
 		this.theLoai = "";
+		this.trangThai = "";
 		this.moTa = "";
 	}
 	
 	
+
+	public Phim(String tenPhim, String moTa) {
+		this.tenPhim = tenPhim;
+		this.moTa = moTa;
+	}
 
 	public Phim(String maPhim, String tenPhim, int thoiLuong) {
 		super();
 		this.maPhim = maPhim;
 		this.tenPhim = tenPhim;
 		this.thoiLuong = thoiLuong;
+	}
+	
+
+	public Phim(String tenPhim, LocalDate ngayKhoiChieu, String moTa) {
+		this.tenPhim = tenPhim;
+		this.ngayKhoiChieu = ngayKhoiChieu;
+		this.moTa = moTa;
 	}
 
 	public Phim(String maPhim, String tenPhim, String daoDien, int thoiLuong, LocalDate ngayKhoiChieu,
@@ -55,6 +70,7 @@ public class Phim {
 		this.ngayKetThuc = ngayKetThuc;
 		this.quocGia = quocGia;
 		this.theLoai = theLoai;
+		this.trangThai = layTrangThai();
 		this.moTa = moTa;
 	}
 
@@ -103,6 +119,10 @@ public class Phim {
 		return theLoai;
 	}
 
+	public String getTrangThai() {
+		return trangThai;
+	}
+
 	public String getMoTa() {
 		return moTa;
 	}
@@ -133,6 +153,10 @@ public class Phim {
 
 	public void setTheLoai(String theLoai) {
 		this.theLoai = theLoai;
+	}
+
+	public void setTrangThai(String trangThai) {
+		this.trangThai = trangThai;
 	}
 
 	public void setMoTa(String moTa) {

@@ -34,6 +34,15 @@ public class HoaDon {
 		this.khachHang = khachHang;
 	}
 
+	public HoaDon(String maHD, LocalDate ngayLap2, NhanVien nv, KhachHang kh, double tongTien2) {
+		this.maHoaDon = maHD;
+		this.ngayLap = ngayLap2;
+		this.nhanVien = nv;
+		this.khachHang = kh;
+		this.tongTien = tongTien2;
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getMaHoaDon() {
 		return maHoaDon;
 	}

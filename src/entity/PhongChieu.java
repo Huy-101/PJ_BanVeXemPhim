@@ -23,7 +23,11 @@ public class PhongChieu {
         return maPhong;
     }
 
-    public void setMaPhong(String maPhong) {
+    public PhongChieu(String maPhong) {
+		this.maPhong = maPhong;
+	}
+
+	public void setMaPhong(String maPhong) {
         this.maPhong = maPhong;
     }
 

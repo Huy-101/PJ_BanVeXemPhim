@@ -1,6 +1,5 @@
 package entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -10,10 +9,8 @@ public class NhanVien {
     private String diaChi, soDienThoai, email;
     private boolean chucVu; // Thay đổi kiểu dữ liệu thành boolean
     private boolean gioiTinh;
-    private BigDecimal luong;
+    private double luong;
 
-    
-    
     public NhanVien() {
         this.maNhanVien = "";
         this.hoTen = "";
@@ -24,7 +21,7 @@ public class NhanVien {
         this.email = "";
         this.chucVu = false; // Khởi tạo chucVu
         this.gioiTinh = false;
-        this.luong = luong;
+        this.luong = 0;
     }
 
     public NhanVien(String maNhanVien) {
@@ -37,7 +34,7 @@ public class NhanVien {
         this.email = "";
         this.chucVu = false; // Khởi tạo chucVu
         this.gioiTinh = false;
-        this.luong = luong;
+        this.luong = 0;
     }
 
     
@@ -51,11 +48,11 @@ public class NhanVien {
         this.email = "";
         this.chucVu = false; // Khởi tạo chucVu
         this.gioiTinh = false;
-        this.luong = luong;
+        this.luong = 0;
     }
-    
+   
     public NhanVien(String maNhanVien, String hoTen, String password, LocalDate ngaySinh, String diaChi, 
-                    String soDienThoai, String email, boolean chucVu, boolean gioiTinh, BigDecimal luong) {
+                    String soDienThoai, String email, boolean chucVu, boolean gioiTinh, double luong) {
         this.maNhanVien = maNhanVien;
         this.hoTen = hoTen;
         this.password = password; // Khởi tạo password
@@ -113,7 +110,7 @@ public class NhanVien {
         return gioiTinh;
     }
 
-    public BigDecimal getLuong() {
+    public double getLuong() {
         return luong;
     }
 
@@ -145,7 +142,7 @@ public class NhanVien {
         this.gioiTinh = gioiTinh;
     }
 
-    public void setLuong(BigDecimal luong) {
+    public void setLuong(double luong) {
         this.luong = luong;
     }
 

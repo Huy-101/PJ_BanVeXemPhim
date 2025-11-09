@@ -9,6 +9,15 @@ public class VePhim {
 	private NhanVien nv;
 	private Phim phim;
 	private SuatChieu suatChieu;
+	private String ghe;
+	public String getGhe() {
+		return ghe;
+	}
+
+	public void setGhe(String ghe) {
+		this.ghe = ghe;
+	}
+	private PhongChieu pc;
 	public VePhim(String maVe, KhachHang kh, NhanVien nv, Phim phim, SuatChieu suatChieu) {
 		super();
 		this.maVe = maVe;
@@ -17,6 +26,23 @@ public class VePhim {
 		this.phim = phim;
 		this.suatChieu = suatChieu;
 	}
+	
+	public VePhim(String maVe,String ghe, Phim phim, SuatChieu suatChieu,PhongChieu pc) {
+		this.ghe = ghe;
+		this.maVe = maVe;
+		this.phim = phim;
+		this.suatChieu = suatChieu;
+		this.pc = pc;
+	}
+
+	public PhongChieu getPc() {
+		return pc;
+	}
+
+	public void setPc(PhongChieu pc) {
+		this.pc = pc;
+	}
+
 	public VePhim(String maVe) {
 		super();
 		this.maVe = maVe;

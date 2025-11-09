@@ -1,6 +1,7 @@
 package entity;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class SuatChieu {
@@ -42,7 +43,14 @@ public class SuatChieu {
         this.trangThai = trangThai;
     }
 
-    // Getter và Setter
+    public SuatChieu(LocalDate ngayKhoiChieu, String thoiGianBatDau) {
+		this.ngayKhoiChieu = ngayKhoiChieu;
+		this.thoiGianBatDau = thoiGianBatDau;
+	}
+
+	
+
+	// Getter và Setter
     public String getMaSuatChieu() {
         return maSuatChieu;
     }
