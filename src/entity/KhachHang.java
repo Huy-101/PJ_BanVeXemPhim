@@ -36,6 +36,13 @@ public class KhachHang {
 		this.email = email;
 	}
 
+	public KhachHang(String maKhachHang, String hoTen, String diaChi, String soDienThoai) {
+		this.maKhachHang = maKhachHang;
+		this.hoTen = hoTen;
+		this.diaChi = diaChi;
+		this.soDienThoai = soDienThoai;
+	}
+
 	public String getMaKhachHang() {
 		return maKhachHang;
 	}
