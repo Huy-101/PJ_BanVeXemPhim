@@ -341,12 +341,11 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 	    String maHD = table.getValueAt(selectedRow, 1).toString();
 	    String ngayLap = table.getValueAt(selectedRow, 2).toString();
 	    String maNV = table.getValueAt(selectedRow, 3).toString();
-	    String tenNV = table.getValueAt(selectedRow, 4).toString();
-	    String maKH = table.getValueAt(selectedRow, 5).toString();
-	    String tenKH = table.getValueAt(selectedRow, 6).toString();
-	    String sdt = table.getValueAt(selectedRow, 7).toString();
-	    String diaChi = table.getValueAt(selectedRow, 8).toString();
-	    String tongTien = table.getValueAt(selectedRow, 9).toString();
+	    String maKH = table.getValueAt(selectedRow, 4).toString();
+	    String tenKH = table.getValueAt(selectedRow, 5).toString();
+	    String sdt = table.getValueAt(selectedRow, 6).toString();
+	    String diaChi = table.getValueAt(selectedRow, 7).toString();
+	    String tongTien = table.getValueAt(selectedRow, 8).toString();
 
 	    // Tạo cửa sổ hiển thị chi tiết hóa đơn
 	    JFrame detailFrame = new JFrame("Chi tiết hóa đơn");
@@ -367,7 +366,6 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 	    sb.append("Mã hóa đơn:      ").append(maHD).append("\n");
 	    sb.append("Ngày lập:        ").append(ngayLap).append("\n");
 	    sb.append("Mã nhân viên:    ").append(maNV).append("\n");
-	    sb.append("Tên nhân viên:    ").append(tenNV).append("\n");
 	    sb.append("Mã khách hàng:   ").append(maKH).append("\n");
 	    sb.append("Tên khách hàng:  ").append(tenKH).append("\n");
 	    sb.append("Số điện thoại:   ").append(sdt).append("\n");
