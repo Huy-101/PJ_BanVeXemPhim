@@ -30,7 +30,7 @@ public class Gui_DangNhap extends JFrame implements ActionListener, KeyListener 
         // === PHÍA TRÁI - HÌNH ẢNH ===
         JPanel jpWest = new JPanel();
         jpWest.setBackground(Color.WHITE);
-        ImageIcon imgLogin = new ImageIcon("image//login.png");
+        ImageIcon imgLogin = new ImageIcon("image//user.png");
         Image img = imgLogin.getImage().getScaledInstance(170, 170, Image.SCALE_SMOOTH);
         JLabel lblImgLogin = new JLabel(new ImageIcon(img));
         jpWest.add(lblImgLogin);

@@ -149,13 +149,6 @@ public class Gui_BanVe extends JFrame implements ActionListener, MenuListener {
 		add(toolBar, BorderLayout.NORTH);
 	}
 
-	private JButton createControlButton(String title, String imagePath, int width, int height) {
-		JButton button = new JButton(title);
-		button.setIcon(resizeImage(imagePath, width, height));
-		button.setFocusable(false);
-		return button;
-	}
-
 	private JPanel createveTablePanel() {
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.white);
@@ -593,11 +586,74 @@ public class Gui_BanVe extends JFrame implements ActionListener, MenuListener {
 //		return price;
 //	}
 
-	private ImageIcon resizeImage(String path, int width, int height) {
-		ImageIcon icon = new ImageIcon(path);
-		Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		return new ImageIcon(img);
-	}
+	private static JButton createControlButton(String text, String iconPath, int width, int height) {
+        ImageIcon icon = resizeImage(iconPath, width, height);
+        
+        JButton btn = new JButton(text, icon);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setHorizontalTextPosition(SwingConstants.RIGHT);
+        btn.setIconTextGap(10);
+        btn.setFocusPainted(false);
+        btn.setBackground(new Color(65, 165, 238));
+        btn.setForeground(Color.WHITE);
+        btn.setBorder(BorderFactory.createLineBorder(new Color(41, 128, 185), 2, true));
+        btn.setPreferredSize(new Dimension(140, 50));
+
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(41, 128, 185)); 
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(65, 165, 238)); 
+            }
+        });
+
+        return btn;
+    }
+
+    private static ImageIcon resizeImage(String iconPath, int width, int height) {
+        try {
+            // Sửa lỗi: // → /, xóa khoảng trắng
+            String fixedPath = iconPath.replace("//", "/").replace(" ", "");
+            
+            // Dùng ImageIcon với đường dẫn đã sửa
+            ImageIcon originalIcon = new ImageIcon(fixedPath);
+            
+            // Kiểm tra xem ảnh có tồn tại không
+            if (originalIcon.getIconWidth() == -1 || originalIcon.getIconHeight() == -1) {
+                System.err.println("Không tìm thấy ảnh: " + fixedPath);
+                return createPlaceholderIcon(width, height); // Icon mặc định
+            }
+
+            Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+
+        } catch (Exception e) {
+            System.err.println("Lỗi load ảnh: " + iconPath + " | " + e.getMessage());
+            return createPlaceholderIcon(width, height); // Tránh crash
+        }
+    }
+    private static ImageIcon createPlaceholderIcon(int width, int height) {
+        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(
+            width, height, java.awt.image.BufferedImage.TYPE_INT_RGB
+        );
+        java.awt.Graphics2D g2d = img.createGraphics();
+        
+        // Nền xám
+        g2d.setColor(new Color(200, 200, 200));
+        g2d.fillRect(0, 0, width, height);
+        
+        // Viền đen
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(0, 0, width - 1, height - 1);
+        
+        // Chữ "?"
+        g2d.setFont(new Font("Arial", Font.BOLD, width / 3));
+        g2d.drawString("?", width / 3, height / 2 + 10);
+        
+        g2d.dispose();
+        return new ImageIcon(img);
+    }
 
 	@Override
 	public void menuDeselected(MenuEvent e) {

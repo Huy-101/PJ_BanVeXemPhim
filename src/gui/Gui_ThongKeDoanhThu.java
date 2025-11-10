@@ -68,59 +68,48 @@ public class Gui_ThongKeDoanhThu extends JFrame implements ActionListener, MenuL
     private JPanel chartPanel;
 
     public Gui_ThongKeDoanhThu() {
-        setTitle("Thống kê doanh thu");
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        getContentPane().setBackground(Color.WHITE);
+    	setTitle("Thống kê doanh thu");
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // ======= MENU BAR =======
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(78, 133, 248));
-        Font menuFont = new Font("Segoe UI", Font.BOLD, 14);
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBackground(new Color(104, 109, 224));
 
-        quanLyMenu = new JMenu("Quản lý");
-        thongKeMenu = new JMenu("Thống kê");
-        dangXuatMenu = new JMenu("Đăng xuất");
+		// Thêm các JMenu
+		quanLyMenu = new JMenu("Quản lý");
+		thongKeMenu = new JMenu("Thống kê");
+		dangXuatMenu = new JMenu("Đăng xuất");
 
-        quanLyMenu.setFont(menuFont);
-        thongKeMenu.setFont(menuFont);
-        dangXuatMenu.setFont(menuFont);
+		quanLyMenu.setBorder(new EmptyBorder(0, 45, 0, 50));
+		quanLyMenu.setForeground(Color.white);
 
-        quanLyMenu.setBorder(new EmptyBorder(0, 45, 0, 50));
-        thongKeMenu.setBorder(new EmptyBorder(0, 45, 0, 50));
-        dangXuatMenu.setBorder(new EmptyBorder(0, 25, 0, 50));
+		thongKeMenu.setBorder(new EmptyBorder(0, 45, 0, 50));
+		thongKeMenu.setBackground(Color.white);
+		thongKeMenu.setForeground(Color.black);
+		thongKeMenu.setOpaque(true);
 
-        quanLyMenu.setForeground(Color.WHITE);
-        thongKeMenu.setForeground(Color.WHITE);
-        dangXuatMenu.setForeground(Color.WHITE);
-        dangXuatMenu.setIcon(resizeImage("image//dangXuat-icon.jpg", 40, 40));
+		dangXuatMenu.setBorder(new EmptyBorder(0, 25, 0, 50));
+		dangXuatMenu.setForeground(Color.white);
+		dangXuatMenu.setIcon(resizeImage("image//dangXuat-icon.jpg", 40, 40));
 
-        menuBar.add(quanLyMenu);
-        menuBar.add(thongKeMenu);
-        menuBar.add(Box.createHorizontalGlue());
-        menuBar.add(dangXuatMenu);
-        setJMenuBar(menuBar);
+		menuBar.add(quanLyMenu);
+		menuBar.add(thongKeMenu);
+		menuBar.add(Box.createHorizontalGlue());
+		menuBar.add(dangXuatMenu);
 
-        // Hover effect
-        thongKeMenu.addMenuListener(new MenuListener() {
-            @Override public void menuSelected(MenuEvent e) {
-                thongKeMenu.setOpaque(true);
-                thongKeMenu.setBackground(Color.WHITE);
-                thongKeMenu.setForeground(new Color(65, 165, 238));
-            }
-            @Override public void menuDeselected(MenuEvent e) {
-                thongKeMenu.setOpaque(true);
-                thongKeMenu.setBackground(new Color(65, 165, 238));
-                thongKeMenu.setForeground(Color.WHITE);
-            }
-            @Override public void menuCanceled(MenuEvent e) {}
-        });
+		setJMenuBar(menuBar);
 
-        // ======= TOOLBAR =======
-        toolBar.setFloatable(false);
-        toolBar.setBackground(new Color(78, 133, 248));
-        toolBar.setBorder(new EmptyBorder(10, 20, 10, 20));
-        add(toolBar, BorderLayout.NORTH);
+		// Thêm các nút điều khiển
+		toolBar.add(btnDoanhThu = createControlButton("Doanh thu", "image//doanhthu-icon.png", 40, 40));
+		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+		btnDoanhThu.setBackground(new Color(104, 109, 224));
+//		toolBar.add(btnSanPham = createControlButton("Sản phẩm", "image//sanpham-icon.png", 40, 40));
+//		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+//		toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
+//		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+
+		// Đặt controlPanel ở phía trên cùng (giống như thanh công cụ cố định)
+		add(toolBar, BorderLayout.NORTH);
 
         // ======= PANEL WEST =======
         JPanel jpWest = new JPanel();
@@ -246,9 +235,7 @@ public class Gui_ThongKeDoanhThu extends JFrame implements ActionListener, MenuL
         jpCenter.add(chartPanel);
         add(jpCenter, BorderLayout.CENTER);
 
-        // Action listeners
-        btnDoanhThu = createControlButton("Doanh thu", "image//doanhthu-icon.png", 40, 40);
-        toolBar.add(btnDoanhThu);
+        
         btnDoanhThu.addActionListener(this);
 
         quanLyMenu.addMenuListener(this);
@@ -300,8 +287,6 @@ public class Gui_ThongKeDoanhThu extends JFrame implements ActionListener, MenuL
         if (o.equals(btnThongKe)) {
             actionThongKe();
         }
-
-        // Xử lý checkbox
         if (o.equals(checkBoxNam)) {
             boolean selected = checkBoxNam.isSelected();
             checkBoxThang.setEnabled(selected);
@@ -500,17 +485,17 @@ public class Gui_ThongKeDoanhThu extends JFrame implements ActionListener, MenuL
 
         if ("Quản lý".equals(source.getText())) {
             chinhMauMenu(quanLyMenu, thongKeMenu);
-            toolBar.add(btnPhim = createControlButton("Phim", "image//movie-icon.png", 40, 40));
+            toolBar.add(btnPhim = createControlButton("Phim", "image//phim-icon.png", 40, 40));
             toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
             toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
             toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-            toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
+            toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//khachhang-icon.png", 40, 40));
             toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-            toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee-icon.png", 40, 40));
+            toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//nhanvien-icon.png", 40, 40));
             toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-            toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoaDon-icon.png", 40, 40));
+            toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoadon-icon.png", 40, 40));
             toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-            toolBar.add(btnVe = createControlButton("Vé", "image//ticket-icon.png", 40, 40));
+            toolBar.add(btnVe = createControlButton("Vé", "image//ve-icon.png", 40, 40));
             toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 
             btnPhim.addActionListener(this);
@@ -549,7 +534,9 @@ public class Gui_ThongKeDoanhThu extends JFrame implements ActionListener, MenuL
     }
 
     private static JButton createControlButton(String text, String iconPath, int width, int height) {
-        JButton btn = new JButton(text, resizeImage(iconPath, width, height));
+        ImageIcon icon = resizeImage(iconPath, width, height);
+        
+        JButton btn = new JButton(text, icon);
         btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btn.setHorizontalTextPosition(SwingConstants.RIGHT);
         btn.setIconTextGap(10);
@@ -558,16 +545,60 @@ public class Gui_ThongKeDoanhThu extends JFrame implements ActionListener, MenuL
         btn.setForeground(Color.WHITE);
         btn.setBorder(BorderFactory.createLineBorder(new Color(41, 128, 185), 2, true));
         btn.setPreferredSize(new Dimension(140, 50));
+
         btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) { btn.setBackground(new Color(41, 128, 185)); }
-            public void mouseExited(java.awt.event.MouseEvent evt) { btn.setBackground(new Color(65, 165, 238)); }
+            public void mouseEntered(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(41, 128, 185)); 
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(65, 165, 238)); 
+            }
         });
+
         return btn;
     }
 
     private static ImageIcon resizeImage(String iconPath, int width, int height) {
-        ImageIcon icon = new ImageIcon(iconPath);
-        Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        try {
+            // Sửa lỗi: // → /, xóa khoảng trắng
+            String fixedPath = iconPath.replace("//", "/").replace(" ", "");
+            
+            // Dùng ImageIcon với đường dẫn đã sửa
+            ImageIcon originalIcon = new ImageIcon(fixedPath);
+            
+            // Kiểm tra xem ảnh có tồn tại không
+            if (originalIcon.getIconWidth() == -1 || originalIcon.getIconHeight() == -1) {
+                System.err.println("Không tìm thấy ảnh: " + fixedPath);
+                return createPlaceholderIcon(width, height); // Icon mặc định
+            }
+
+            Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+
+        } catch (Exception e) {
+            System.err.println("Lỗi load ảnh: " + iconPath + " | " + e.getMessage());
+            return createPlaceholderIcon(width, height); // Tránh crash
+        }
+    }
+    private static ImageIcon createPlaceholderIcon(int width, int height) {
+        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(
+            width, height, java.awt.image.BufferedImage.TYPE_INT_RGB
+        );
+        java.awt.Graphics2D g2d = img.createGraphics();
+        
+        // Nền xám
+        g2d.setColor(new Color(200, 200, 200));
+        g2d.fillRect(0, 0, width, height);
+        
+        // Viền đen
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(0, 0, width - 1, height - 1);
+        
+        // Chữ "?"
+        g2d.setFont(new Font("Arial", Font.BOLD, width / 3));
+        g2d.drawString("?", width / 3, height / 2 + 10);
+        
+        g2d.dispose();
         return new ImageIcon(img);
     }
 

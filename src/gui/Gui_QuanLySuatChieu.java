@@ -110,72 +110,53 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 	private Object[][] duLieuGoc = null;
 	
 	public Gui_QuanLySuatChieu() {
-	    setTitle("Quản lý phim");
-	    setExtendedState(JFrame.MAXIMIZED_BOTH);
-	    setDefaultCloseOperation(EXIT_ON_CLOSE);
-	    getContentPane().setBackground(Color.WHITE);
+		setTitle("Quản lý phim");
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-	    // ===== MENU BAR =====
-	    JMenuBar menuBar = new JMenuBar();
-	    menuBar.setBackground(new Color(78,133,248));
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBackground(new Color(104, 109, 224));
 
-	    // Tạo JMenu
-	    quanLyMenu = new JMenu("Quản lý");
-	    thongKeMenu = new JMenu("Thống kê");
-	    dangXuatMenu = new JMenu("Đăng xuất");
+		// Thêm các JMenu
+		quanLyMenu = new JMenu("Quản lý");
+		thongKeMenu = new JMenu("Thống kê");
+		dangXuatMenu = new JMenu("Đăng xuất");
 
-	    // Font và màu
-	    Font menuFont = new Font("Segoe UI", Font.BOLD, 14);
-	    quanLyMenu.setFont(menuFont);
-	    thongKeMenu.setFont(menuFont);
-	    dangXuatMenu.setFont(menuFont);
+//		quanLyMenu.setPreferredSize(new Dimension(150, 40));
+		quanLyMenu.setBorder(new EmptyBorder(0, 45, 0, 50));
+		quanLyMenu.setBackground(Color.white);
+		quanLyMenu.setForeground(Color.black);
+		quanLyMenu.setOpaque(true);
 
-	    // Căn lề và màu sắc
-	    quanLyMenu.setBorder(new EmptyBorder(0, 45, 0, 50));
-	    quanLyMenu.setBackground(Color.WHITE);
-	    quanLyMenu.setForeground(Color.BLACK);
-	    quanLyMenu.setOpaque(true);
+//		thongKeMenu.setPreferredSize(new Dimension(150, 40));
+		thongKeMenu.setBorder(new EmptyBorder(0, 45, 0, 50));
+		thongKeMenu.setForeground(Color.white);
 
-	    thongKeMenu.setBorder(new EmptyBorder(0, 45, 0, 50));
-	    thongKeMenu.setForeground(Color.WHITE);
+//		dangXuatMenu.setPreferredSize(new Dimension(150, 40));
+		dangXuatMenu.setBorder(new EmptyBorder(0, 25, 0, 50));
+		dangXuatMenu.setForeground(Color.white);
+		dangXuatMenu.setIcon(resizeImage("image//dangXuat-icon.jpg", 40, 40));
 
-	    dangXuatMenu.setBorder(new EmptyBorder(0, 25, 0, 50));
-	    dangXuatMenu.setForeground(Color.WHITE);
-	    dangXuatMenu.setIcon(resizeImage("image//dangXuat-icon.jpg", 40, 40));
+		menuBar.add(quanLyMenu);
+		menuBar.add(thongKeMenu);
+		menuBar.add(Box.createHorizontalGlue());
+		menuBar.add(dangXuatMenu);
 
-	    // Gắn menu vào thanh bar
-	    menuBar.add(quanLyMenu);
-	    menuBar.add(thongKeMenu);
-	    menuBar.add(Box.createHorizontalGlue());
-	    menuBar.add(dangXuatMenu);
-	    setJMenuBar(menuBar);
-
-	    // ===== TOOLBAR =====
-	    toolBar.setFloatable(false);
-	    toolBar.setBackground(Color.WHITE);
-	    //Thanh công cụ xanh nhạt
-	  	toolBar = new JToolBar();
-	  	toolBar.setFloatable(false);
-	  	toolBar.setBackground(new Color(78,133,248)); // xanh lam nhạt
-	  	toolBar.setBorder(new EmptyBorder(10, 20, 10, 20));
+		setJMenuBar(menuBar);
 	  	
-	    toolBar.add(btnPhim = createControlButton("Phim", "image//movie-icon.png", 40, 40));
-	    toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	  	toolBar.add(btnPhim = createControlButton("Phim", "image//phim-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//khachhang-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//nhanvien-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoadon-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnVe = createControlButton("Vé", "image//ve-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 
-	    toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
-	    btnSuatChieu.setBackground(new Color(104, 109, 224)); // Đang chọn
-	    toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-	    
-	    toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
-	    toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-
-	    toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee-icon.png", 40, 40));
-	    toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-
-	    toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoaDon-icon.png", 40, 40));
-	    toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-
-	    toolBar.add(btnVe = createControlButton("Vé", "image//ticket-icon.png", 40, 40));
 
 	    add(toolBar, BorderLayout.NORTH);
 
@@ -390,42 +371,74 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 		menu1.setOpaque(true);
 	}
 
-	private JButton createControlButton(String text, String iconPath, int width, int height) {
-	    JButton btn = new JButton(text, resizeImage(iconPath, width, height));
+	private static JButton createControlButton(String text, String iconPath, int width, int height) {
+        ImageIcon icon = resizeImage(iconPath, width, height);
+        
+        JButton btn = new JButton(text, icon);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setHorizontalTextPosition(SwingConstants.RIGHT);
+        btn.setIconTextGap(10);
+        btn.setFocusPainted(false);
+        btn.setBackground(new Color(65, 165, 238));
+        btn.setForeground(Color.WHITE);
+        btn.setBorder(BorderFactory.createLineBorder(new Color(41, 128, 185), 2, true));
+        btn.setPreferredSize(new Dimension(140, 50));
 
-	    // Font và căn chỉnh
-	    btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
-	    btn.setHorizontalTextPosition(SwingConstants.RIGHT);
-	    btn.setIconTextGap(10);
-	    btn.setFocusPainted(false);
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(41, 128, 185)); 
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(65, 165, 238)); 
+            }
+        });
 
-	    //Nền xanh sáng (65,165,238) + chữ trắng
-	    btn.setBackground(new Color(65, 165, 238));
-	    btn.setForeground(Color.WHITE);
-	    btn.setBorder(BorderFactory.createLineBorder(new Color(41, 128, 185), 2, true)); // xanh đậm viền nhẹ
-	    btn.setPreferredSize(new Dimension(140, 50));
+        return btn;
+    }
 
-	    //Hiệu ứng hover – xanh đậm hơn một chút
-	    btn.addMouseListener(new java.awt.event.MouseAdapter() {
-	        public void mouseEntered(java.awt.event.MouseEvent evt) {
-	            btn.setBackground(new Color(41, 128, 185)); // hover: xanh đậm hơn
-	        }
+    private static ImageIcon resizeImage(String iconPath, int width, int height) {
+        try {
+            // Sửa lỗi: // → /, xóa khoảng trắng
+            String fixedPath = iconPath.replace("//", "/").replace(" ", "");
+            
+            // Dùng ImageIcon với đường dẫn đã sửa
+            ImageIcon originalIcon = new ImageIcon(fixedPath);
+            
+            // Kiểm tra xem ảnh có tồn tại không
+            if (originalIcon.getIconWidth() == -1 || originalIcon.getIconHeight() == -1) {
+                System.err.println("Không tìm thấy ảnh: " + fixedPath);
+                return createPlaceholderIcon(width, height); // Icon mặc định
+            }
 
-	        public void mouseExited(java.awt.event.MouseEvent evt) {
-	            btn.setBackground(new Color(65, 165, 238)); // trở lại xanh sáng
-	        }
-	    });
+            Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
 
-	    return btn;
-	}
-
-	private static ImageIcon resizeImage(String iconPath, int width, int height) {
-		ImageIcon icon = new ImageIcon(iconPath);
-		Image img = icon.getImage();
-		Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		icon = new ImageIcon(scaledImg);
-		return icon;
-	}
+        } catch (Exception e) {
+            System.err.println("Lỗi load ảnh: " + iconPath + " | " + e.getMessage());
+            return createPlaceholderIcon(width, height); // Tránh crash
+        }
+    }
+    private static ImageIcon createPlaceholderIcon(int width, int height) {
+        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(
+            width, height, java.awt.image.BufferedImage.TYPE_INT_RGB
+        );
+        java.awt.Graphics2D g2d = img.createGraphics();
+        
+        // Nền xám
+        g2d.setColor(new Color(200, 200, 200));
+        g2d.fillRect(0, 0, width, height);
+        
+        // Viền đen
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(0, 0, width - 1, height - 1);
+        
+        // Chữ "?"
+        g2d.setFont(new Font("Arial", Font.BOLD, width / 3));
+        g2d.drawString("?", width / 3, height / 2 + 10);
+        
+        g2d.dispose();
+        return new ImageIcon(img);
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -577,17 +590,19 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 		toolBar.removeAll();
 		if (sourceMenu.getText().equals("Quản lý")) {
 			chinhMauMenu(quanLyMenu, thongKeMenu);
-			toolBar.add(btnPhim = createControlButton("Phim", "image//movie-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoaDon-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnVe = createControlButton("Vé", "image//ticket-icon.png", 40, 40));
+			toolBar.add(btnPhim = createControlButton("Phim", "image//phim-icon.png", 40, 40));
+            toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+            toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
+            toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+            toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//khachhang-icon.png", 40, 40));
+            toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+            toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//nhanvien-icon.png", 40, 40));
+            toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+            toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoadon-icon.png", 40, 40));
+            toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+            toolBar.add(btnVe = createControlButton("Vé", "image//ve-icon.png", 40, 40));
+            toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+
 
 			toolBar.revalidate();
 			toolBar.repaint();

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -26,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -112,19 +114,18 @@ public class Gui_QuanLyVe extends JFrame implements ActionListener, MenuListener
 		// Tạo JPanel cố định cho các nút điều khiển
 
 		// Thêm các nút điều khiển
-		toolBar.add(btnPhim = createControlButton("Phim", "image//movie-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnThucPham = createControlButton("Thực phẩm", "image//bap-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoaDon-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnVe = createControlButton("Vé", "image//ticket-icon.png", 40, 40));
+		toolBar.add(btnPhim = createControlButton("Phim", "image//phim-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//khachhang-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//nhanvien-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoadon-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnVe = createControlButton("Vé", "image//ve-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 		btnVe.setBackground(new Color(104, 109, 224));
 
 		// Đặt controlPanel ở phía trên cùng (giống như thanh công cụ cố định)
@@ -145,7 +146,7 @@ public class Gui_QuanLyVe extends JFrame implements ActionListener, MenuListener
 		bWest.add(Box.createVerticalStrut(10));
 
 		bWest.add(bWest2 = Box.createHorizontalBox());
-		bWest2.add(lblTimTheoMa = new JLabel("Tìm nhân viên theo mã:  "));
+		bWest2.add(lblTimTheoMa = new JLabel("Tìm vé phim theo mã:  "));
 //		bWest2.add(Box.createHorizontalStrut(85));
 		bWest2.add(txtTimMa = new JTextField());
 		bWest2.add(btnTimTheoMa = new JButton("Tìm"));
@@ -209,7 +210,6 @@ public class Gui_QuanLyVe extends JFrame implements ActionListener, MenuListener
 
 		btnPhim.addActionListener(this);
 		btnSuatChieu.addActionListener(this);
-		btnThucPham.addActionListener(this);
 		btnKhachHang.addActionListener(this);
 		btnNhanVien.addActionListener(this);
 		btnHoaDon.addActionListener(this);
@@ -218,7 +218,8 @@ public class Gui_QuanLyVe extends JFrame implements ActionListener, MenuListener
 		btnInVe.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnTimTheoMa.addActionListener(this);
-
+		btnSapXep.addActionListener(this);
+		
 		quanLyMenu.addMenuListener(this);
 		banHangMenu.addMenuListener(this);
 		thongKeMenu.addMenuListener(this);
@@ -237,72 +238,224 @@ public class Gui_QuanLyVe extends JFrame implements ActionListener, MenuListener
 	}
 
 	private static JButton createControlButton(String text, String iconPath, int width, int height) {
-		JButton button = new JButton(text);
-		ImageIcon icon = new ImageIcon(iconPath);
-		Image img = icon.getImage();
-		Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		icon = new ImageIcon(scaledImg);
-		button.setIcon(icon); // Đường dẫn tới file icon
-		button.setFocusable(false);
-		return button;
-	}
+        ImageIcon icon = resizeImage(iconPath, width, height);
+        
+        JButton btn = new JButton(text, icon);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setHorizontalTextPosition(SwingConstants.RIGHT);
+        btn.setIconTextGap(10);
+        btn.setFocusPainted(false);
+        btn.setBackground(new Color(65, 165, 238));
+        btn.setForeground(Color.WHITE);
+        btn.setBorder(BorderFactory.createLineBorder(new Color(41, 128, 185), 2, true));
+        btn.setPreferredSize(new Dimension(140, 50));
 
-	private static ImageIcon resizeImage(String iconPath, int width, int height) {
-		ImageIcon icon = new ImageIcon(iconPath);
-		Image img = icon.getImage();
-		Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		icon = new ImageIcon(scaledImg);
-		return icon;
-	}
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(41, 128, 185)); 
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(65, 165, 238)); 
+            }
+        });
+
+        return btn;
+    }
+
+    private static ImageIcon resizeImage(String iconPath, int width, int height) {
+        try {
+            // Sửa lỗi: // → /, xóa khoảng trắng
+            String fixedPath = iconPath.replace("//", "/").replace(" ", "");
+            
+            // Dùng ImageIcon với đường dẫn đã sửa
+            ImageIcon originalIcon = new ImageIcon(fixedPath);
+            
+            // Kiểm tra xem ảnh có tồn tại không
+            if (originalIcon.getIconWidth() == -1 || originalIcon.getIconHeight() == -1) {
+                System.err.println("Không tìm thấy ảnh: " + fixedPath);
+                return createPlaceholderIcon(width, height); // Icon mặc định
+            }
+
+            Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+
+        } catch (Exception e) {
+            System.err.println("Lỗi load ảnh: " + iconPath + " | " + e.getMessage());
+            return createPlaceholderIcon(width, height); // Tránh crash
+        }
+    }
+    private static ImageIcon createPlaceholderIcon(int width, int height) {
+        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(
+            width, height, java.awt.image.BufferedImage.TYPE_INT_RGB
+        );
+        java.awt.Graphics2D g2d = img.createGraphics();
+        
+        // Nền xám
+        g2d.setColor(new Color(200, 200, 200));
+        g2d.fillRect(0, 0, width, height);
+        
+        // Viền đen
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(0, 0, width - 1, height - 1);
+        
+        // Chữ "?"
+        g2d.setFont(new Font("Arial", Font.BOLD, width / 3));
+        g2d.drawString("?", width / 3, height / 2 + 10);
+        
+        g2d.dispose();
+        return new ImageIcon(img);
+    }
 
 	//@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
-//		if (o.equals(btnPhim)) {
-//			new Gui_QuanLyPhim().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnSuatChieu)) {
-//			new Gui_QuanLySuatChieu().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnThucPham)) {
-//			new Gui_QuanLyThucPham().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnKhachHang)) {
-//			new Gui_QuanLyKhachHang().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnNhanVien)) {
-//			new Gui_QuanLyNhanVien().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnHoaDon)) {
-//			new Gui_QuanLyHoaDon().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnVe)) {
-//			new Gui_QuanLyVe().setVisible(true);
-//			this.setVisible(false);
-//		}
+		if (o.equals(btnPhim)) {
+			new Gui_QuanLyPhim().setVisible(true);
+			this.setVisible(false);
+		}
+		if (o.equals(btnSuatChieu)) {
+			new Gui_QuanLySuatChieu().setVisible(true);
+			this.setVisible(false);
+		}
+		if (o.equals(btnKhachHang)) {
+			new Gui_QuanLyKhachHang().setVisible(true);
+			this.setVisible(false);
+		}
+		if (o.equals(btnNhanVien)) {
+			new Gui_QuanLyNhanVien().setVisible(true);
+			this.setVisible(false);
+		}
+		if (o.equals(btnHoaDon)) {
+			new Gui_QuanLyHoaDon().setVisible(true);
+			this.setVisible(false);
+		}
+		if (o.equals(btnVe)) {
+			new Gui_QuanLyVe().setVisible(true);
+			this.setVisible(false);
+		}
 		if (o.equals(btnInVe)) {
 		inVePhim();
 		}
-//		if (o.equals(btnDoanhThu)) {
-//			new Gui_ThongKeDoanhThu().setVisible(true);
-//			this.setVisible(false);
-//		}
+		if (o.equals(btnDoanhThu)) {
+			new Gui_ThongKeDoanhThu().setVisible(true);
+			this.setVisible(false);
+		}
 
-//		if (o.equals(btnXoa))
-//			actionXoa();
-//		if (o.equals(btnTim))
-//			actionTim();
-//		if (o.equals(btnSapXep))
-//			actionSapXep();
+		if (o.equals(btnXoa))
+			actionXoa();
+		if (o.equals(btnTimTheoMa))
+			actionTimKiem();
+		if (o.equals(btnSapXep))
+			actionSapXep();
 	}
 
+	private void actionTimKiem() {
+	    String maTim = txtTimMa.getText().trim();
+
+	    if (maTim.isEmpty()) {
+	        hienThiCanhBao("Vui lòng nhập mã vé để tìm!");
+	        txtTimMa.requestFocus();
+	        return;
+	    }
+
+	    ArrayList<VePhim> ketQua = dbv.timVePhimTheoMa(maTim);
+
+	    if (ketQua.isEmpty()) {
+	        hienThiThongBao("Không tìm thấy vé có mã: " + maTim);
+	        txtTimMa.selectAll();
+	        return;
+	    }
+
+	    capNhatBang(ketQua);
+	    hienThiThongBao("Tìm thấy " + ketQua.size() + " vé phù hợp!");
+	}
+	private void actionSapXep() {
+	    if (!radSapXepMa.isSelected() && !radSapXepTien.isSelected()) {
+	        hienThiCanhBao("Vui lòng chọn tiêu chí sắp xếp!");
+	        return;
+	    }
+
+	    ArrayList<VePhim> danhSach;
+
+	    if (radSapXepMa.isSelected()) {
+	        danhSach = dbv.sapXepTheoMa();
+	    } else {
+	        danhSach = dbv.sapXepTheoGia(); // hoặc theo ngày nếu không có giá
+	    }
+
+	    capNhatBang(danhSach);
+	}
+	private void actionXoa() {
+	    int row = table.getSelectedRow();
+	    if (row == -1) {
+	        hienThiCanhBao("Vui lòng chọn một vé để xóa!");
+	        return;
+	    }
+
+	    String maVe = layGiaTriTai(row, 1);
+	    String tenPhim = layGiaTriTai(row, 3);
+
+	    int xacNhan = JOptionPane.showConfirmDialog(
+	        this,
+	        String.format("Xóa vé phim:\nMã: %s\nPhim: %s\n\nBạn có chắc chắn?", maVe, tenPhim),
+	        "Xác nhận xóa",
+	        JOptionPane.YES_NO_OPTION,
+	        JOptionPane.QUESTION_MESSAGE
+	    );
+
+	    if (xacNhan != JOptionPane.YES_OPTION) return;
+
+	    if (dbv.xoaVePhim(maVe)) {
+	        tableModel.removeRow(row);
+	        capNhatSTT();
+	        hienThiThongBao("Xóa vé thành công!");
+	    } else {
+	        hienThiLoi("Xóa thất bại! Vé có thể đang được sử dụng trong hóa đơn.");
+	    }
+	}
+	private void themVeVaoBang(VePhim ve, int stt) {
+	    Object[] row = {
+	        stt,
+	        ve.getMaVe(),
+	        ve.getPc().getMaPhong(),
+	        ve.getPhim().getTenPhim(),
+	        ve.getSuatChieu().getNgayKhoiChieu(),
+	        ve.getSuatChieu().getThoiGianBatDau(),
+	        ve.getGhe(),
+	        "75,000", // Có thể thay bằng ve.getDonGia() nếu có
+	        ve.getPhim().getMoTa()
+	    };
+	    tableModel.addRow(row);
+	}
+	private void capNhatSTT() {
+	    for (int i = 0; i < tableModel.getRowCount(); i++) {
+	        tableModel.setValueAt(i + 1, i, 0);
+	    }
+	}
+	private void capNhatBang(ArrayList<VePhim> danhSach) {
+	    tableModel.setRowCount(0); // Xóa hết
+	    int stt = 1;
+	    for (VePhim ve : danhSach) {
+	        themVeVaoBang(ve, stt++);
+	    }
+	}
+	private String layGiaTriTai(int row, int col) {
+	    Object value = tableModel.getValueAt(row, col);
+	    return value != null ? value.toString() : "";
+	}
+	private void hienThiThongBao(String msg) {
+	    JOptionPane.showMessageDialog(this, msg, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	private void hienThiCanhBao(String msg) {
+	    JOptionPane.showMessageDialog(this, msg, "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+	}
+
+	private void hienThiLoi(String msg) {
+	    JOptionPane.showMessageDialog(this, msg, "Lỗi", JOptionPane.ERROR_MESSAGE);
+	}
+	
 //	private void actionSapXep() {
 //		// TODO Auto-generated method stub
 //		if (radSapXepMa.isSelected()) {
@@ -326,7 +479,7 @@ public class Gui_QuanLyVe extends JFrame implements ActionListener, MenuListener
 //			}
 //		}
 //	}
-
+//	
 //	private void actionTim() {
 //		// TODO Auto-generated method stub
 //		String timMaVP = txtTimMa.getText().trim();
@@ -416,19 +569,18 @@ public class Gui_QuanLyVe extends JFrame implements ActionListener, MenuListener
 		toolBar.removeAll();
 		if (sourceMenu.getText().equals("Quản lý")) {
 			chinhMauMenu(quanLyMenu, thongKeMenu);
-			toolBar.add(btnPhim = createControlButton("Phim", "image//movie-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnThucPham = createControlButton("Thực phẩm", "image//bap-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoaDon-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnVe = createControlButton("Vé", "image//ticket-icon.png", 40, 40));
+			toolBar.add(btnPhim = createControlButton("Phim", "image//phim-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	        toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	        toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//khachhang-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	        toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//nhanvien-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	        toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoadon-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	        toolBar.add(btnVe = createControlButton("Vé", "image//ve-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 
 			toolBar.revalidate();
 			toolBar.repaint();
@@ -469,10 +621,10 @@ public class Gui_QuanLyVe extends JFrame implements ActionListener, MenuListener
 //			btnSanPham.addActionListener(this);
 //			btnKhachHang.addActionListener(this);
 		}
-//		if (sourceMenu.getText().equals("Đăng xuất")) {
-//			new Gui_DangNhap().setVisible(true);
-//			this.setVisible(false);
-//		}
+		if (sourceMenu.getText().equals("Đăng xuất")) {
+			new Gui_DangNhap().setVisible(true);
+			this.setVisible(false);
+		}
 	}
 
 	private void inVePhim() {

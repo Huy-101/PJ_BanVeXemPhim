@@ -31,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.MenuEvent;
@@ -70,7 +71,7 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 	private JButton btnSapXep;
 	private JLabel lblTimTheoTenNV;
 	private JTextField txtMaNhanVien;
-	private JButton btnTimKiemTenNV;
+	private JButton btnTimKiemMaNV;
 	private JLabel lblTimTheoMaHD;
 	private JTextField txtTimTheoMaHD;
 	private JButton btnTimKiemTheoMaHD;
@@ -126,20 +127,18 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 		// Tạo JPanel cố định cho các nút điều khiển
 
 		// Thêm các nút điều khiển
-		toolBar.add(btnPhim = createControlButton("Phim", "image//movie-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnThucPham = createControlButton("Thực phẩm", "image//bap-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee-icon.png", 40, 40));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoaDon-icon.png", 40, 40));
-		btnHoaDon.setBackground(new Color(104, 109, 224));
-		toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-		toolBar.add(btnVe = createControlButton("Vé", "image//ticket-icon.png", 40, 40));
+		toolBar.add(btnPhim = createControlButton("Phim", "image//phim-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//khachhang-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//nhanvien-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoadon-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnVe = createControlButton("Vé", "image//ve-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 
 		// Đặt controlPanel ở phía trên cùng (giống như thanh công cụ cố định)
 		add(toolBar, BorderLayout.NORTH);
@@ -161,7 +160,7 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 		bWest.add(bWest2 = Box.createHorizontalBox());
 		bWest2.add(lblTimTheoTenNV = new JLabel("Tìm kiếm theo mã nhân viên: "));
 		bWest2.add(txtMaNhanVien = new JTextField());
-		bWest2.add(btnTimKiemTenNV = new JButton("Tìm"));
+		bWest2.add(btnTimKiemMaNV = new JButton("Tìm"));
 		bWest.add(Box.createVerticalStrut(20));
 
 		bWest.add(bWest3 = Box.createHorizontalBox());
@@ -232,7 +231,6 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 
 		btnPhim.addActionListener(this);
 		btnSuatChieu.addActionListener(this);
-		btnThucPham.addActionListener(this);
 		btnKhachHang.addActionListener(this);
 		btnNhanVien.addActionListener(this);
 		btnHoaDon.addActionListener(this);
@@ -240,7 +238,8 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 
 		btnXemChiTiet.addActionListener(this);
 		btnXoa.addActionListener(this);
-//		btnTim.addActionListener(this);
+		btnTimKiemMaNV.addActionListener(this);
+		btnTimKiemTheoMaHD.addActionListener(this);
 		btnSapXep.addActionListener(this);
 
 		quanLyMenu.addMenuListener(this);
@@ -262,23 +261,73 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 	}
 
 	private static JButton createControlButton(String text, String iconPath, int width, int height) {
-		JButton button = new JButton(text);
-		ImageIcon icon = new ImageIcon(iconPath);
-		Image img = icon.getImage();
-		Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		icon = new ImageIcon(scaledImg);
-		button.setIcon(icon); // Đường dẫn tới file icon
-		button.setFocusable(false);
-		return button;
-	}
+        ImageIcon icon = resizeImage(iconPath, width, height);
+        
+        JButton btn = new JButton(text, icon);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setHorizontalTextPosition(SwingConstants.RIGHT);
+        btn.setIconTextGap(10);
+        btn.setFocusPainted(false);
+        btn.setBackground(new Color(65, 165, 238));
+        btn.setForeground(Color.WHITE);
+        btn.setBorder(BorderFactory.createLineBorder(new Color(41, 128, 185), 2, true));
+        btn.setPreferredSize(new Dimension(140, 50));
 
-	private static ImageIcon resizeImage(String iconPath, int width, int height) {
-		ImageIcon icon = new ImageIcon(iconPath);
-		Image img = icon.getImage();
-		Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		icon = new ImageIcon(scaledImg);
-		return icon;
-	}
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(41, 128, 185)); 
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(65, 165, 238)); 
+            }
+        });
+
+        return btn;
+    }
+
+    private static ImageIcon resizeImage(String iconPath, int width, int height) {
+        try {
+            // Sửa lỗi: // → /, xóa khoảng trắng
+            String fixedPath = iconPath.replace("//", "/").replace(" ", "");
+            
+            // Dùng ImageIcon với đường dẫn đã sửa
+            ImageIcon originalIcon = new ImageIcon(fixedPath);
+            
+            // Kiểm tra xem ảnh có tồn tại không
+            if (originalIcon.getIconWidth() == -1 || originalIcon.getIconHeight() == -1) {
+                System.err.println("Không tìm thấy ảnh: " + fixedPath);
+                return createPlaceholderIcon(width, height); // Icon mặc định
+            }
+
+            Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+
+        } catch (Exception e) {
+            System.err.println("Lỗi load ảnh: " + iconPath + " | " + e.getMessage());
+            return createPlaceholderIcon(width, height); // Tránh crash
+        }
+    }
+    private static ImageIcon createPlaceholderIcon(int width, int height) {
+        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(
+            width, height, java.awt.image.BufferedImage.TYPE_INT_RGB
+        );
+        java.awt.Graphics2D g2d = img.createGraphics();
+        
+        // Nền xám
+        g2d.setColor(new Color(200, 200, 200));
+        g2d.fillRect(0, 0, width, height);
+        
+        // Viền đen
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(0, 0, width - 1, height - 1);
+        
+        // Chữ "?"
+        g2d.setFont(new Font("Arial", Font.BOLD, width / 3));
+        g2d.drawString("?", width / 3, height / 2 + 10);
+        
+        g2d.dispose();
+        return new ImageIcon(img);
+    }
 	private void createChiTietHoaDonGUI() {
 	    // Lấy dòng được chọn trên table hóa đơn
 	    int selectedRow = table.getSelectedRow();
@@ -292,11 +341,12 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 	    String maHD = table.getValueAt(selectedRow, 1).toString();
 	    String ngayLap = table.getValueAt(selectedRow, 2).toString();
 	    String maNV = table.getValueAt(selectedRow, 3).toString();
-	    String maKH = table.getValueAt(selectedRow, 4).toString();
-	    String tenKH = table.getValueAt(selectedRow, 5).toString();
-	    String sdt = table.getValueAt(selectedRow, 6).toString();
-	    String diaChi = table.getValueAt(selectedRow, 7).toString();
-	    String tongTien = table.getValueAt(selectedRow, 8).toString();
+	    String tenNV = table.getValueAt(selectedRow, 4).toString();
+	    String maKH = table.getValueAt(selectedRow, 5).toString();
+	    String tenKH = table.getValueAt(selectedRow, 6).toString();
+	    String sdt = table.getValueAt(selectedRow, 7).toString();
+	    String diaChi = table.getValueAt(selectedRow, 8).toString();
+	    String tongTien = table.getValueAt(selectedRow, 9).toString();
 
 	    // Tạo cửa sổ hiển thị chi tiết hóa đơn
 	    JFrame detailFrame = new JFrame("Chi tiết hóa đơn");
@@ -317,6 +367,7 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 	    sb.append("Mã hóa đơn:      ").append(maHD).append("\n");
 	    sb.append("Ngày lập:        ").append(ngayLap).append("\n");
 	    sb.append("Mã nhân viên:    ").append(maNV).append("\n");
+	    sb.append("Tên nhân viên:    ").append(tenNV).append("\n");
 	    sb.append("Mã khách hàng:   ").append(maKH).append("\n");
 	    sb.append("Tên khách hàng:  ").append(tenKH).append("\n");
 	    sb.append("Số điện thoại:   ").append(sdt).append("\n");
@@ -338,41 +389,37 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
-//		if (o.equals(btnPhim)) {
-//			new Gui_QuanLyPhim().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnSuatChieu)) {
-//			new Gui_QuanLySuatChieu().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnThucPham)) {
-//			new Gui_QuanLyThucPham().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnKhachHang)) {
-//			new Gui_QuanLyKhachHang().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnNhanVien)) {
-//			new Gui_QuanLyNhanVien().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnHoaDon)) {
-//			new Gui_QuanLyHoaDon().setVisible(true);
-//			this.setVisible(false);
-//		}
-//		if (o.equals(btnVe)) {
-//			new Gui_QuanLyVe().setVisible(true);
-//			this.setVisible(false);
-//		}
+		if (o.equals(btnPhim)) {
+			new Gui_QuanLyPhim().setVisible(true);
+			this.setVisible(false);
+		}
+		if (o.equals(btnSuatChieu)) {
+			new Gui_QuanLySuatChieu().setVisible(true);
+			this.setVisible(false);
+		}
+		if (o.equals(btnKhachHang)) {
+			new Gui_QuanLyKhachHang().setVisible(true);
+			this.setVisible(false);
+		}
+		if (o.equals(btnNhanVien)) {
+			new Gui_QuanLyNhanVien().setVisible(true);
+			this.setVisible(false);
+		}
+		if (o.equals(btnHoaDon)) {
+			new Gui_QuanLyHoaDon().setVisible(true);
+			this.setVisible(false);
+		}
+		if (o.equals(btnVe)) {
+			new Gui_QuanLyVe().setVisible(true);
+			this.setVisible(false);
+		}
 		if (o.equals(btnXemChiTiet)) {
 			createChiTietHoaDonGUI(); // Bạn có thể lấy mã hóa đơn từ bảng nếu cần
-		
-//		if (o.equals(btnDoanhThu)) {
-//			new Gui_ThongKeDoanhThu().setVisible(true);
-//			this.setVisible(false);
-//		}
+		}
+		if (o.equals(btnDoanhThu)) {
+			new Gui_ThongKeDoanhThu().setVisible(true);
+			this.setVisible(false);
+		}
 //		if (o.equals(btnSanPham)) {
 //			new Gui_ThongKeSanPham().setVisible(true);
 //			this.setVisible(false);
@@ -383,89 +430,120 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 //		}
 		if (o.equals(btnXoa))
 			actionXoa();
-		if (o.equals(btnTimKiemTenNV))
+		if (o.equals(btnTimKiemMaNV))
 			actionTimTheoMaNV();
 		if (o.equals(btnTimKiemTheoMaHD))
 			actionTimTheoMaHD();
 		if (o.equals(btnSapXep))
 			actionSapXep();
-	}
+	
 	}
 
 	private void actionSapXep() {
-		// TODO Auto-generated method stub
-		if (radSapXepNgayLap.isSelected()) {
-			ArrayList<HoaDon> list = dshd.sapXepTheoTen();
-			XoaDataTrenModel();
-			int i = 0;
-			for (HoaDon hoaDon : list) {
-				tableModel.addRow(new Object[] { i + 1, hoaDon.getMaHoaDon(), hoaDon.getNhanVien().getMaNhanVien(),
-						hoaDon.getNhanVien().getHoTen(), hoaDon.getNgayLap(), hoaDon.getTongTien() });
-				i++;
-			}
-		}
-		if (radSapXepTien.isSelected()) {
-			ArrayList<HoaDon> list = dshd.sapXepTheoTien();
-			XoaDataTrenModel();
-			int i = 0;
-			for (HoaDon hoaDon : list) {
-				tableModel.addRow(new Object[] { i + 1, hoaDon.getMaHoaDon(), hoaDon.getNhanVien().getMaNhanVien(),
-						hoaDon.getNhanVien().getHoTen(), hoaDon.getNgayLap(), hoaDon.getTongTien() });
-				i++;
-			}
-		}
-		if (radSapXepTen.isSelected()) {
-			ArrayList<HoaDon> list = dshd.sapXepTheoTien();
-			XoaDataTrenModel();
-			int i = 0;
-			for (HoaDon hoaDon : list) {
-				tableModel.addRow(new Object[] { i + 1, hoaDon.getMaHoaDon(), hoaDon.getNhanVien().getMaNhanVien(),
-						hoaDon.getNhanVien().getHoTen(), hoaDon.getNgayLap(), hoaDon.getTongTien() });
-				i++;
-			}
-		}
+	    ArrayList<HoaDon> list = null;
+
+	    if (radSapXepNgayLap.isSelected()) {
+	        list = dshd.sapXepTheoMa(); // Sắp theo mã HD (gần đúng ngày lập)
+	    }
+	    if (radSapXepTien.isSelected()) {
+	        list = dshd.sapXepTheoTien();
+	    }
+	    if (radSapXepTen.isSelected()) {
+	        list = dshd.sapXepTheoTen();
+	    }
+
+	    if (list != null && !list.isEmpty()) {
+	        XoaDataTrenModel();
+	        int i = 0;
+	        for (HoaDon hoaDon : list) {
+	            tableModel.addRow(new Object[] { 
+	                i + 1, 
+	                hoaDon.getMaHoaDon(), 
+	                hoaDon.getNgayLap() != null ? hoaDon.getNgayLap().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "",
+	                hoaDon.getNhanVien().getMaNhanVien(),
+	                hoaDon.getKhachHang().getMaKhachHang(),
+	                hoaDon.getKhachHang().getHoTen(),
+	                hoaDon.getKhachHang().getSoDienThoai(),
+	                hoaDon.getKhachHang().getDiaChi(),
+	                new DecimalFormat("#,###").format(hoaDon.getTongTien())
+	            });
+	            i++;
+	        }
+	    } else {
+	        JOptionPane.showMessageDialog(this, "Không có dữ liệu để sắp xếp!");
+	    }
 	}
 	private void actionTimTheoMaNV() {
-		// TODO Auto-generated method stub
-		String timMaNV = txtMaNhanVien.getText().trim();
-		ArrayList<HoaDon> list = dshd.timHoaDonTheoMaNV(timMaNV);
-			if (list != null) {
-				XoaDataTrenModel();
-				int i = 0;
-				for (HoaDon hoaDon : list) {
-					tableModel.addRow(new Object[] { i + 1, hoaDon.getMaHoaDon(), hoaDon.getNhanVien().getMaNhanVien(),
-							hoaDon.getNhanVien().getHoTen(), hoaDon.getNgayLap(), hoaDon.getTongTien() });
-				}
-			} else {
-				JOptionPane.showMessageDialog(null, "Không tìm thấy.");
-				txtMaNhanVien.requestFocus();
-				txtMaNhanVien.selectAll();
-			}
-		}
+	    String timMaNV = txtMaNhanVien.getText().trim().toUpperCase();
+	    
+	    // Nếu để trống → hiện toàn bộ
+	    if (timMaNV.isEmpty()) {
+	        DocDuLieuDatabaseVaoTable();
+	        return;
+	    }
+
+	    ArrayList<HoaDon> list = dshd.timHoaDonTheoMaNV(timMaNV);
+	    XoaDataTrenModel(); // Xóa bảng cũ trước
+
+	    // KIỂM TRA KÍCH THƯỚC DANH SÁCH, KHÔNG PHẢI null
+	    if (list.isEmpty()) {
+	        JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên có mã: " + timMaNV);
+	        txtMaNhanVien.requestFocus();
+	        txtMaNhanVien.selectAll();
+	        return;
+	    }
+
+	    // ĐÚNG 9 CỘT – KHÔNG THIẾU, KHÔNG SAI
+	    DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	    DecimalFormat mf = new DecimalFormat("#,###");
+	    int stt = 1;
+	    for (HoaDon hd : list) {
+	        tableModel.addRow(new Object[] {
+	            stt++,
+	            hd.getMaHoaDon(),
+	            hd.getNgayLap() != null ? hd.getNgayLap().format(df) : "",
+	            hd.getNhanVien().getMaNhanVien(),
+	            hd.getKhachHang().getMaKhachHang(),
+	            hd.getKhachHang().getHoTen(),
+	            hd.getKhachHang().getSoDienThoai(),
+	            hd.getKhachHang().getDiaChi(),
+	            mf.format(hd.getTongTien())
+	        });
+	    }
+	}
 	
 	
 
 	private void actionTimTheoMaHD() {
-		// TODO Auto-generated method stub
-		String timMaHD = txtTimTheoMaHD.getText().trim();
-		ArrayList<HoaDon> list = dshd.timHoaDonTheoTenNV(timMaHD);
-		if (timMaHD.isBlank()) {
-			DocDuLieuDatabaseVaoTable();
-		} else {
-			if (list != null) {
-				XoaDataTrenModel();
-				int i = 0;
-				for (HoaDon hoaDon : list) {
-					tableModel.addRow(new Object[] { i + 1, hoaDon.getMaHoaDon(), hoaDon.getNhanVien().getMaNhanVien(),
-							hoaDon.getNhanVien().getHoTen(), hoaDon.getNgayLap(), hoaDon.getTongTien() });
-					i++;
-				}
-			} else {
-				JOptionPane.showMessageDialog(null, "Không tìm thấy.");
-				txtTimTheoMaHD.requestFocus();
-				txtTimTheoMaHD.selectAll();
-			}
-		}
+	    String ma = txtTimTheoMaHD.getText().trim().toUpperCase();
+	    if (ma.isEmpty()) {
+	        DocDuLieuDatabaseVaoTable();
+	        return;
+	    }
+
+	    ArrayList<HoaDon> list = dshd.timHoaDonTheoMaHD(ma);
+	    XoaDataTrenModel();
+
+	    if (list.isEmpty()) {
+	        JOptionPane.showMessageDialog(this, "Không tìm thấy: " + ma);
+	    } else {
+	        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	        DecimalFormat mf = new DecimalFormat("#,###");
+	        int stt = 1;
+	        for (HoaDon hd : list) {
+	            tableModel.addRow(new Object[] {
+	                stt++,
+	                hd.getMaHoaDon(),
+	                hd.getNgayLap().format(df),
+	                hd.getNhanVien().getMaNhanVien(),
+	                hd.getKhachHang().getMaKhachHang(),
+	                hd.getKhachHang().getHoTen(),
+	                hd.getKhachHang().getSoDienThoai(),
+	                hd.getKhachHang().getDiaChi(),
+	                mf.format(hd.getTongTien())
+	            });
+	        }
+	    }
 	}
 
 	private void actionXoa() {
@@ -486,7 +564,7 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 		 DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 		    tableModel.setRowCount(0); // Xóa dữ liệu cũ
 
-		    ArrayList<HoaDon> danhSach = dshd.layDanhSachHoaDon();
+		    ArrayList<HoaDon> danhSach = dshd.layDanhSachHoaDon1();
 
 		    if (danhSach.isEmpty()) {
 		        JOptionPane.showMessageDialog(null, "Không có hóa đơn để hiển thị!");
@@ -526,26 +604,24 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 		toolBar.removeAll();
 		if (sourceMenu.getText().equals("Quản lý")) {
 			chinhMauMenu(quanLyMenu, thongKeMenu);
-			toolBar.add(btnPhim = createControlButton("Phim", "image//movie-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnThucPham = createControlButton("Thực phẩm", "image//bap-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoaDon-icon.png", 40, 40));
-			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-			toolBar.add(btnVe = createControlButton("Vé", "image//ticket-icon.png", 40, 40));
+			toolBar.add(btnPhim = createControlButton("Phim", "image//phim-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	        toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	        toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//khachhang-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	        toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//nhanvien-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	        toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoadon-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+	        toolBar.add(btnVe = createControlButton("Vé", "image//ve-icon.png", 40, 40));
+	        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 
 			toolBar.revalidate();
 			toolBar.repaint();
 
 			btnPhim.addActionListener(this);
 			btnSuatChieu.addActionListener(this);
-			btnThucPham.addActionListener(this);
 			btnKhachHang.addActionListener(this);
 			btnNhanVien.addActionListener(this);
 			btnHoaDon.addActionListener(this);
@@ -555,21 +631,19 @@ public class Gui_QuanLyHoaDon extends JFrame implements ActionListener, MenuList
 			chinhMauMenu(thongKeMenu, quanLyMenu);
 			toolBar.add(btnDoanhThu = createControlButton("Doanh thu", "image//doanhthu-icon.png", 40, 40));
 			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-//			toolBar.add(btnSanPham = createControlButton("Sản phẩm", "image//sanpham-icon.png", 40, 40));
-//			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 //			toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//customer-icon.png", 40, 40));
 //			toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 
 			toolBar.revalidate();
 			toolBar.repaint();
 			btnDoanhThu.addActionListener(this);
-//			btnSanPham.addActionListener(this);
+
 //			btnKhachHang.addActionListener(this);
 		}
-//		if (sourceMenu.getText().equals("Đăng xuất")) {
-//			new Gui_DangNhap().setVisible(true);
-//			this.setVisible(false);
-//		}
+		if (sourceMenu.getText().equals("Đăng xuất")) {
+			new Gui_DangNhap().setVisible(true);
+			this.setVisible(false);
+		}
 		
 		
 	}

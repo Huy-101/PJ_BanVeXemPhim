@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -133,18 +134,18 @@ public class Gui_QuanLyPhim extends JFrame implements ActionListener, MouseListe
 		// Thêm các nút điều khiển
 		setJMenuBar(menuBar);
 		// Thêm các nút điều khiển
-				toolBar.add(btnPhim = createControlButton("Phim", "image//movie.jpg", 40, 40));
-				toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-				toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image/suatchieu.jpg", 40, 40));
-				toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-				toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image/customer.jpg", 40, 40));
-				btnKhachHang.setBackground(new Color(104, 109, 224));
-				toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-				toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//employee.jpg", 40, 40));
-				toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-				toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image/bill.jpg", 40, 40));
-				toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
-				toolBar.add(btnVe = createControlButton("Vé", "image/tiket.jpg", 40, 40));
+		toolBar.add(btnPhim = createControlButton("Phim", "image//phim-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnSuatChieu = createControlButton("Suất chiếu", "image//suatChieu-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnKhachHang = createControlButton("Khách hàng", "image//khachhang-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnNhanVien = createControlButton("Nhân viên", "image//nhanvien-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnHoaDon = createControlButton("Hóa đơn", "image//hoadon-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
+        toolBar.add(btnVe = createControlButton("Vé", "image//ve-icon.png", 40, 40));
+        toolBar.add(Box.createRigidArea(new Dimension(20, 0)));
 
 		// Đặt controlPanel ở phía trên cùng (giống như thanh công cụ cố định)
 		add(toolBar, BorderLayout.NORTH);
@@ -366,26 +367,74 @@ public class Gui_QuanLyPhim extends JFrame implements ActionListener, MouseListe
 		DocDuLieuDatabaseVaoTable();
 
 	}
-	private JButton createControlButton(String text, String iconPath, int width, int height) {
-		JButton button = new JButton(text);
-		ImageIcon icon = new ImageIcon(iconPath);
-		Image img = icon.getImage();
-		Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		icon = new ImageIcon(scaledImg);
-		button.setIcon(icon); // Đường dẫn tới file icon
-		button.setFocusable(false);
-		return button;
-	}
+	private static JButton createControlButton(String text, String iconPath, int width, int height) {
+        ImageIcon icon = resizeImage(iconPath, width, height);
+        
+        JButton btn = new JButton(text, icon);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setHorizontalTextPosition(SwingConstants.RIGHT);
+        btn.setIconTextGap(10);
+        btn.setFocusPainted(false);
+        btn.setBackground(new Color(65, 165, 238));
+        btn.setForeground(Color.WHITE);
+        btn.setBorder(BorderFactory.createLineBorder(new Color(41, 128, 185), 2, true));
+        btn.setPreferredSize(new Dimension(140, 50));
 
-	
-private static ImageIcon resizeImage(String iconPath, int width, int height) {
-	ImageIcon icon = new ImageIcon(iconPath);
-	Image img = icon.getImage();
-	Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-	icon = new ImageIcon(scaledImg);
-	return icon;
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(41, 128, 185)); 
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) { 
+                btn.setBackground(new Color(65, 165, 238)); 
+            }
+        });
 
-	}
+        return btn;
+    }
+
+    private static ImageIcon resizeImage(String iconPath, int width, int height) {
+        try {
+            // Sửa lỗi: // → /, xóa khoảng trắng
+            String fixedPath = iconPath.replace("//", "/").replace(" ", "");
+            
+            // Dùng ImageIcon với đường dẫn đã sửa
+            ImageIcon originalIcon = new ImageIcon(fixedPath);
+            
+            // Kiểm tra xem ảnh có tồn tại không
+            if (originalIcon.getIconWidth() == -1 || originalIcon.getIconHeight() == -1) {
+                System.err.println("Không tìm thấy ảnh: " + fixedPath);
+                return createPlaceholderIcon(width, height); // Icon mặc định
+            }
+
+            Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+
+        } catch (Exception e) {
+            System.err.println("Lỗi load ảnh: " + iconPath + " | " + e.getMessage());
+            return createPlaceholderIcon(width, height); // Tránh crash
+        }
+    }
+    private static ImageIcon createPlaceholderIcon(int width, int height) {
+        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(
+            width, height, java.awt.image.BufferedImage.TYPE_INT_RGB
+        );
+        java.awt.Graphics2D g2d = img.createGraphics();
+        
+        // Nền xám
+        g2d.setColor(new Color(200, 200, 200));
+        g2d.fillRect(0, 0, width, height);
+        
+        // Viền đen
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(0, 0, width - 1, height - 1);
+        
+        // Chữ "?"
+        g2d.setFont(new Font("Arial", Font.BOLD, width / 3));
+        g2d.drawString("?", width / 3, height / 2 + 10);
+        
+        g2d.dispose();
+        return new ImageIcon(img);
+    }
 	private void DocDuLieuDatabaseVaoTable() {
 		Dao_Phim dsp = new Dao_Phim();
 		ArrayList<Phim> list = dsp.layDanhSachPhim();
