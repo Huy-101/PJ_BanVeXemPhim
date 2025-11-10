@@ -46,12 +46,8 @@ public class Dao_BanVe {
 	            String thoiGianBatDau = rs.getString(5);
 	            String tenGhe = rs.getString(6);
 	            String moTa = rs.getString(7);
-	            SuatChieu sc = new SuatChieu();
-	            sc.getNgayKhoiChieu();
-	            sc.getThoiGianBatDau();
+	            SuatChieu sc = new SuatChieu(ngayKhoiChieu,thoiGianBatDau);
 	            Phim p = new Phim(tenPhim,moTa);
-	            p.getTenPhim();
-	            p.getMoTa();
 	            PhongChieu pc = new PhongChieu(maPhong);
 	            VePhim ve = new VePhim(maVePhim,tenGhe,p,sc,pc);
 	            dsVePhim.add(ve);
