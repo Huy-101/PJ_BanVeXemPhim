@@ -215,5 +215,3 @@ private ArrayList<Phim> dsp;
 			return dao.dsp;
 		}
 	}
-
-

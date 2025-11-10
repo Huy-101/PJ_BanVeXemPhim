@@ -31,7 +31,7 @@ public class Dao_ChiTietHoaDon {
 				HoaDon hoaDon = new HoaDon(rs.getString(1));
 				String maVP = rs.getString(2);
 				double thanhTien = rs.getDouble(3);
-				ChiTietHoaDon cthd = new ChiTietHoaDon(hoaDon, thanhTien);
+				ChiTietHoaDon cthd = new ChiTietHoaDon(hoaDon, 0, thanhTien);
 				dscthd.add(cthd);
 			}
 		} catch (Exception e) {

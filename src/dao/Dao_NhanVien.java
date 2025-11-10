@@ -1,6 +1,5 @@
 package dao;
 
-import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
@@ -246,7 +245,7 @@ public class Dao_NhanVien {
 				String email = rs.getString(7);
 				boolean gioiTinh = rs.getBoolean(8);
 				boolean chucVu = rs.getBoolean(9);
-				BigDecimal luong = rs.getBigDecimal(10);
+				double luong = rs.getDouble(10);
 				NhanVien nv = new NhanVien(maNV, hoTen, mk, ngaySinh, diaChi, soDienThoai, email, chucVu, gioiTinh,
 						luong);
 				dsnv.add(nv);
@@ -272,7 +271,7 @@ public class Dao_NhanVien {
 			stmt.setString(7, nv.getEmail());
 			stmt.setBoolean(8, nv.isGioiTinh());
 			stmt.setBoolean(9, nv.isChucVu());
-			stmt.setBigDecimal(10, nv.getLuong());
+			stmt.setDouble(10, nv.getLuong());
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -295,7 +294,7 @@ public class Dao_NhanVien {
 			stmt.setString(6, nv.getEmail());
 			stmt.setBoolean(7, nv.isGioiTinh());
 			stmt.setBoolean(8, nv.isChucVu());
-			stmt.setBigDecimal(9, nv.getLuong());
+			stmt.setDouble(9, nv.getLuong());
 			stmt.setString(10, nv.getMaNhanVien());
 			n = stmt.executeUpdate();
 			dsnv.set(dsnv.indexOf(nv), nv);
@@ -338,7 +337,7 @@ public class Dao_NhanVien {
 				String email = rs.getString(7);
 				boolean gioiTinh = rs.getBoolean(8);
 				boolean chucVu = rs.getBoolean(9);
-				BigDecimal luong = rs.getBigDecimal(10);
+				double luong = rs.getDouble(10);
 				NhanVien nv = new NhanVien(maNV, hoTen, mk, ngaySinh, diaChi, soDienThoai, email, chucVu, gioiTinh,
 						luong);
 				dao.dsnv.add(nv);
@@ -366,7 +365,7 @@ public class Dao_NhanVien {
 				String email = rs.getString(7);
 				boolean gioiTinh = rs.getBoolean(8);
 				boolean chucVu = rs.getBoolean(9);
-				BigDecimal luong = rs.getBigDecimal(10);
+				double luong = rs.getDouble(10);
 				NhanVien nv = new NhanVien(maNV, hoTen, mk, ngaySinh, diaChi, soDienThoai, email, chucVu, gioiTinh,
 						luong);
 				dao.dsnv.add(nv);
@@ -394,7 +393,7 @@ public class Dao_NhanVien {
 				String email = rs.getString(7);
 				boolean gioiTinh = rs.getBoolean(8);
 				boolean chucVu = rs.getBoolean(9);
-				BigDecimal luong = rs.getBigDecimal(10);
+				double luong = rs.getDouble(10);
 				NhanVien nv = new NhanVien(maNV, hoTen, mk, ngaySinh, diaChi, soDienThoai, email, chucVu, gioiTinh,
 						luong);
 				dao.dsnv.add(nv);
@@ -422,7 +421,7 @@ public class Dao_NhanVien {
 				String email = rs.getString(7);
 				boolean gioiTinh = rs.getBoolean(8);
 				boolean chucVu = rs.getBoolean(9);
-				BigDecimal luong = rs.getBigDecimal(10);
+				double luong = rs.getDouble(10);
 				NhanVien nv = new NhanVien(maNV, hoTen, mk, ngaySinh, diaChi, soDienThoai, email, chucVu, gioiTinh,
 						luong);
 				dao.dsnv.add(nv);
