@@ -347,6 +347,26 @@ public class Dao_HoaDon {
 	    return danhSach;
 	}
 
+	public ArrayList<Integer> layCacNamCoHoaDon() {
+	    ArrayList<Integer> listNam = new ArrayList<>();
+	    try {
+	        ConnectDB.getInstance().connect();
+	        Connection con = ConnectDB.getConnection();
+	        if (con == null) {
+	            System.out.println("Chưa kết nối CSDL!");
+	            return listNam;
+	        }
+	        String sql = "SELECT DISTINCT YEAR(NgayLapHoaDon) FROM HoaDon ORDER BY YEAR(NgayLapHoaDon) DESC";
+	        PreparedStatement stmt = con.prepareStatement(sql);
+	        ResultSet rs = stmt.executeQuery();
+	        while (rs.next()) {
+	            listNam.add(rs.getInt(1));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return listNam;
+	}
 
 
 }
