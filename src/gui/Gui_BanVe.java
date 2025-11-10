@@ -121,6 +121,24 @@ public class Gui_BanVe extends JFrame implements ActionListener, MenuListener {
 		setJMenuBar(menuBar);
 
 		banHangMenu.addMenuListener(this);
+		dangXuatMenu.addMenuListener(new MenuListener() {
+	        @Override
+	        public void menuSelected(MenuEvent e) {
+	            int confirm = JOptionPane.showConfirmDialog(
+	                Gui_BanVe.this,
+	                "Bạn có chắc chắn muốn đăng xuất?",
+	                "Đăng xuất",
+	                JOptionPane.YES_NO_OPTION,
+	                JOptionPane.QUESTION_MESSAGE
+	            );
+	            if (confirm == JOptionPane.YES_OPTION) {
+	                dispose(); // Đóng cửa sổ bán vé
+	                new Gui_DangNhap().setVisible(true); // Mở trang đăng nhập
+	            }
+	        }
+	        @Override public void menuDeselected(MenuEvent e) {}
+	        @Override public void menuCanceled(MenuEvent e) {}
+	    });
 	}
 
 	private void setupToolBar() {
@@ -481,33 +499,7 @@ public class Gui_BanVe extends JFrame implements ActionListener, MenuListener {
 		cboPhim.setSelectedIndex(0);
 		cboPhong.setSelectedIndex(0);
 		cboSuatChieu.setSelectedIndex(0);
-		cboDoAn.setSelectedIndex(0);
-		spnSoLuongDoAn.setValue(0);
 	}
-
-//	private void addThucPhamToTable() {
-//		String maKH = cboMaKH.getSelectedItem().toString();
-//		String maNV = txtMaNV.getText();
-//		String doAn = (String) cboDoAn.getSelectedItem();
-//		int soLuongDoAn = (int) spnSoLuongDoAn.getValue();
-//		String donGia = String.valueOf(updateFoodPrice());
-//		String tongTien = String.valueOf((updateFoodPrice() * soLuongDoAn));
-//
-//		if (!cboDoAn.getSelectedItem().equals("")) {
-//			// Thêm mỗi ghế là một hàng vào bảng
-//			thucPhamTableModel.addRow(new Object[] { maKH, maNV, soLuongDoAn, doAn, donGia, tongTien });
-//		}
-//
-//		// Reset lại sau khi thêm vào bảng
-//		selectedSeats.clear();
-//		for (int i = 0; i < seatPanel.getComponentCount(); i++) {
-//			((JButton) seatPanel.getComponent(i)).setBackground(Color.LIGHT_GRAY);
-//		}
-//		lblTongTien.setText(String.valueOf(tinhTongTien()) + " VNĐ");
-//		cboMaKH.setSelectedIndex(0);
-//		cboDoAn.setSelectedIndex(0);
-//		spnSoLuongDoAn.setValue(0);
-//	}
 
 //	private void actionLuuChiTietHoaDon() {
 //		try {
