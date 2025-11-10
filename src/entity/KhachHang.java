@@ -35,7 +35,7 @@ public class KhachHang {
 		this.soDienThoai = soDienThoai;
 		this.email = email;
 	}
-
+	
 	public KhachHang(String maKhachHang, String hoTen, String diaChi, String soDienThoai) {
 		this.maKhachHang = maKhachHang;
 		this.hoTen = hoTen;

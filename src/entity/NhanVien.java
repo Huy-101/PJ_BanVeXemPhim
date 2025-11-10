@@ -50,7 +50,7 @@ public class NhanVien {
         this.gioiTinh = false;
         this.luong = 0;
     }
-   
+    
     public NhanVien(String maNhanVien, String hoTen, String password, LocalDate ngaySinh, String diaChi, 
                     String soDienThoai, String email, boolean chucVu, boolean gioiTinh, double luong) {
         this.maNhanVien = maNhanVien;
