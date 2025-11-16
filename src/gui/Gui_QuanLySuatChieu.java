@@ -181,14 +181,14 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 	    bWest.add(bWest2);
 	    bWest.add(Box.createVerticalStrut(10));
 
-	    Box bWest3 = Box.createHorizontalBox();
-	    bWest3.add(lbltimkiemtheotenphim = new JLabel("Tìm kiếm theo tên phim: "));
-	    bWest3.add(txtTimTenPhim = new JTextField());
-	    bWest3.add(btnTimTenPhim = new JButton("Tìm"));
-	    bWest.add(bWest3);
-	    bWest.add(Box.createVerticalStrut(20));
-	    
-	    lbltimkiemtheotenphim.setPreferredSize(lbltimkiemtheomaphong.getPreferredSize());
+//	    Box bWest3 = Box.createHorizontalBox();
+//	    bWest3.add(lbltimkiemtheotenphim = new JLabel("Tìm kiếm theo tên phim: "));
+//	    bWest3.add(txtTimTenPhim = new JTextField());
+//	    bWest3.add(btnTimTenPhim = new JButton("Tìm"));
+//	    bWest.add(bWest3);
+//	    bWest.add(Box.createVerticalStrut(20));
+//	    
+//	    lbltimkiemtheotenphim.setPreferredSize(lbltimkiemtheomaphong.getPreferredSize());
 
 	    // --- Trạng thái suất chiếu ---
 	    bWest.add(new JLabel("Tìm kiếm theo trạng thái suất chiếu"));
@@ -216,8 +216,13 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 	    bWest8.add(dateChooserDenNgay);
 	    bWest.add(bWest8);
 	    bWest.add(Box.createVerticalStrut(20));
-	    
+
 	    lbltungay.setPreferredSize(lbldenngay.getPreferredSize());
+	    
+	    Box bWest9 = Box.createHorizontalBox();
+	    bWest9.add(btnTim = new JButton("Tìm"));
+	    bWest.add(bWest9);
+	    bWest.add(Box.createVerticalStrut(20));
 
 	    // --- Sắp xếp ---
 	    JLabel lblSapXep = new JLabel("Sắp xếp suất chiếu theo tiêu chí");
@@ -291,7 +296,7 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 	    txtThoiGianBatDau.setPreferredSize(FIELD_SIZE);
 	    bCenter.add(b2);
 	    bCenter.add(Box.createVerticalStrut(15));
-
+	    
 	    // ---
 
 	    Box b3 = Box.createHorizontalBox();
@@ -348,8 +353,8 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 	    btnXoa.addActionListener(this);
 	    btnXoaRong.addActionListener(this);
 	    btnTimKiemMaPhong.addActionListener(this);
-	    btnTimTenPhim.addActionListener(this);
-//	    btnTim.addActionListener(this);
+//	    btnTimTenPhim.addActionListener(this);
+	    btnTim.addActionListener(this);
 	    btnSapXep.addActionListener(this);
 	    cboTrangThai.addActionListener(this);
 
@@ -359,6 +364,7 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 
 	    table.addMouseListener(this);
 		DocDuLieuDatabaseVaoTable();
+		
 	}
 
 	private static void chinhMauMenu(JMenu menu1, JMenu menu2) {
@@ -476,8 +482,8 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 			actionThem();
 		if (o.equals(btnTimKiemMaPhong))
 			actionTimTheoMaPhong();
-		if (o.equals(btnTimTenPhim))
-			actionTimKiemTenPhim();
+//		if (o.equals(btnTimTenPhim))
+//			actionTimKiemTenPhim();
 		if (o.equals(btnTim))
 			actionTimKiemTrangThai();
 		if (o.equals(btnXoa)) 
@@ -537,50 +543,7 @@ public class Gui_QuanLySuatChieu extends JFrame implements ActionListener, MenuL
 	}
 
 	private void actionTimKiemTenPhim() {
-	    String tenPhim = txtTimTenPhim.getText().trim();
-
-	    if (tenPhim.isEmpty()) {
-	        JOptionPane.showMessageDialog(this, "Vui lòng nhập tên phim!", 
-	                                      "Lỗi", JOptionPane.WARNING_MESSAGE);
-	        txtTimTenPhim.requestFocus();
-	        return;
-	    }
-
-	    Dao_Phim dao = new Dao_Phim();
-	    ArrayList<Phim> ketQua = dao.timPhimTheoTen(tenPhim);
-
-	    // Xóa bảng
-	    while (tableModel.getRowCount() > 0) {
-	        tableModel.removeRow(0);
-	    }
-
-	    if (ketQua == null || ketQua.isEmpty()) {
-	        JOptionPane.showMessageDialog(this, 
-	            "Không tìm thấy phim nào có tên chứa: \"" + tenPhim + "\"", 
-	            "Kết quả tìm kiếm", JOptionPane.INFORMATION_MESSAGE);
-	        return;
-	    }
-
-	    // Hiển thị kết quả
-	    int stt = 1;
-	    for (Phim p : ketQua) {
-	        tableModel.addRow(new Object[] {
-	            stt++,
-	            p.getMaPhim(),
-	            p.getTenPhim(),
-	            p.getDaoDien(),
-	            p.getThoiLuong(),
-	            p.getNgayKhoiChieu(),
-	            p.getNgayKetThuc(),
-	            p.getQuocGia(),
-	            p.getTheLoai(),
-	            p.getMoTa()
-	        });
-	    }
-
-	    JOptionPane.showMessageDialog(this, 
-	        "Tìm thấy " + ketQua.size() + " phim!", 
-	        "Thành công", JOptionPane.INFORMATION_MESSAGE);
+	    
 	}
 
 	@Override
